@@ -1,6 +1,11 @@
-# FEC Filing Analysis
+# FEC Filing Analysis (external skill)
 
 **Category:** Research & Data
+**Source:** [hodgesmr/agent-fecfile](https://github.com/hodgesmr/agent-fecfile) — by Matt Hodges, MIT licensed
+
+> This skill is **not hosted in this repo**. It lives upstream at the link above.
+> Install it directly from there; this page is documentation so you can find it
+> alongside the rest of the Progressive AI Skills collection.
 
 Analyze Federal Election Commission (FEC) campaign finance filings — contributions, disbursements, loans, debts, and independent expenditures — without dumping massive datasets into the model's context window. Built around the [`fecfile`](https://pypi.org/project/fecfile/) Python library with an opinionated workflow for filings of any size, from a small state party monthly to a presidential campaign quarterly with hundreds of thousands of itemizations.
 
@@ -34,7 +39,28 @@ It also includes authoritative field-mapping references for FEC forms (F1, F2, F
 
 Optional but recommended for committee/filing discovery:
 
-- **`fec-api` MCP server** — provides `search_committees` and `get_filings` tools. Requires a free [FEC API key](https://api.open.fec.gov/developers/). Without it, you can still use the skill by providing filing IDs directly (find them at [fec.gov](https://www.fec.gov) or in URLs like `https://docquery.fec.gov/dcdev/posted/1690664.fec`).
+- **`fec-api` MCP server** (bundled in the upstream repo) — provides `search_committees` and `get_filings` tools. Requires a free [FEC API key](https://api.open.fec.gov/developers/). Without it, you can still use the skill by providing filing IDs directly (find them at [fec.gov](https://www.fec.gov) or in URLs like `https://docquery.fec.gov/dcdev/posted/1690664.fec`).
+
+## Installation
+
+Follow the upstream instructions at [hodgesmr/agent-fecfile](https://github.com/hodgesmr/agent-fecfile). The short version:
+
+**Claude Code plugin (recommended):**
+
+```bash
+claude plugin marketplace add hodgesmr/agent-fecfile
+claude plugin install fecfile@agent-fecfile
+```
+
+**Other runtimes (Codex CLI, etc.):**
+
+```bash
+git clone --branch latest git@github.com:hodgesmr/agent-fecfile.git ~/agent-fecfile
+ln -sfn ~/agent-fecfile/skills/fecfile ~/.codex/skills/fecfile
+codex mcp add fec-api -- uv run ~/agent-fecfile/mcp-server/server.py
+```
+
+See the upstream README for full installation, MCP setup, and API-key configuration.
 
 ## How to use it
 
@@ -57,13 +83,10 @@ Ask "show me the latest filing for the Utah Republican Party" or "find recent fi
 ## Tips and edge cases
 
 - **Always check size first.** Major committees (ActBlue, WinRed, presidential campaigns) routinely file with hundreds of thousands of itemizations. The skill enforces a `--summary-only` check before any full pull. Trust this — it exists because of real failures.
-- **Use the field references.** `references/FORMS.md` and `references/SCHEDULES.md` document the exact field names used in parsed filings. Don't let the model guess — point it at these.
 - **Amendments matter.** Filings with `amendment_indicator: A` are amendments to a previous filing. Check `previous_report_amendment_indicator` to find the original. By default `get_filings` excludes superseded amendments; set `include_amended: true` to see them.
 - **Itemization threshold is $200.** Contributions and expenditures under $200 don't appear in schedule itemizations — they only roll up into summary totals. If a search seems to be "missing" small donors, this is why.
 - **API keys stay hidden.** If you use the `fec-api` MCP server, the FEC API key is loaded from the system keyring on first use and never exposed to the model or the conversation.
 
-## Source and attribution
+## Why we link out instead of hosting a copy
 
-This skill is a verbatim copy of the [`fecfile` skill from agent-fecfile](https://github.com/hodgesmr/agent-fecfile) by **Matt Hodges**, distributed under the MIT License. We've mirrored it here so it's discoverable alongside other progressive-infrastructure skills; for upstream updates, the canonical source is hodgesmr/agent-fecfile.
-
-The optional MCP server (`fec-api`) lives in the upstream repo — if you want committee/filing search rather than just filing-ID lookups, install via the upstream's instructions.
+The upstream project is actively maintained by Matt Hodges and ships as a Claude Code plugin (with its own MCP server, scripts, and field-mapping references). Mirroring it here would either get stale or require us to track upstream releases. Pointing at the source keeps you on the canonical version.
