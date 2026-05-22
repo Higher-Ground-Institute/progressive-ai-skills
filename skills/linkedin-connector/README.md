@@ -1,5 +1,7 @@
 # LinkedIn Connection Tracker
 
+*Contributed by [Adam Ruben](https://github.com/SnackAttack555).*
+
 A Claude skill that scans your Google Calendar for recent meeting attendees, finds their LinkedIn profiles, and helps you stay on top of professional networking — without the manual busywork.
 
 ## What It Does

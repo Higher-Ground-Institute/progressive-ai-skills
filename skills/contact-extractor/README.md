@@ -1,6 +1,7 @@
 # Contact Extractor
 
 **Category:** Operations
+*Contributed by [Adam Ruben](https://github.com/SnackAttack555).*
 
 Automatically builds and maintains a contact spreadsheet from your Gmail. Runs on a schedule (or manually), scans recent emails, and pulls out names, email addresses, phone numbers, organizations, and titles — then saves everything to a deduplicated `.xlsx` file.
 
