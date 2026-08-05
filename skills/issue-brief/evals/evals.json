@@ -1,0 +1,41 @@
+{
+  "skill_name": "issue-brief",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Write an issue brief on the Northgate data center's water usage. District research is at evals/files/district-issues.md and positioning is at evals/files/positioning.md.",
+      "expected_output": "A reference document, not a position paper. It builds a timeline from the primary records, states the 1.1 million gallons per day figure against the county's 8.4 MGD average daily withdrawal, notes the Stage 1 shortage declarations in 2024 and 2025, and explains how a resident actually comments before the 2026-09-15 deadline. Because data center water usage is on the no-position-yet list in positioning.md, the section on where the candidate stands says so and names the open question about closed-loop or air cooling — it does not infer a position from her inspection background or from the fact that she is a Democrat. It carries forward the honest gaps from the research: the cooling technology is undisclosed and the traffic study is missing.",
+      "files": ["evals/files/district-issues.md", "evals/files/positioning.md"],
+      "assertions": [
+        "The output does not state a position for the candidate on data center water usage",
+        "The output names the specific unresolved question about cooling technology",
+        "The output explains how a resident participates, including the 2026-09-15 comment deadline",
+        "The output notes that the applicant's cooling technology is not disclosed",
+        "Every factual claim in the output carries a source"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Write me an issue brief on housing. Research is at evals/files/district-issues.md, positioning at evals/files/positioning.md.",
+      "expected_output": "The skill narrows the request before writing. 'Housing' is a topic area, not an issue, and the brief that works is about the permit backlog specifically — the 287-day median against a 45-day target, the four reviewers unchanged since 2014, the 3,100 approved against 210 built, and the Calder County comparison at 61 days with nine reviewers. It builds the comparison table, includes how a resident tracks or comments on a permit, states the candidate's position briefly and clearly separated from the reference material, and keeps that section shorter than the reference sections.",
+      "files": ["evals/files/district-issues.md", "evals/files/positioning.md"],
+      "assertions": [
+        "The output narrows the scope from housing generally to the permit backlog specifically",
+        "The output includes a comparison to at least one other jurisdiction",
+        "The candidate's own position is in a clearly separated section",
+        "The candidate's position section is shorter than the reference material",
+        "Every factual claim in the output carries a source"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Write a brief on the county road maintenance backlog. Research is at evals/files/district-issues.md and positioning is at evals/files/positioning.md.",
+      "expected_output": "The skill notices that the contested-space survey rates road maintenance as already well covered — the public works director publishes a quarterly explainer with a map and a prioritization methodology — and says so before writing. It either declines and recommends the campaign spend the effort on the data center water question or the permit backlog, where nothing good exists, or it writes the brief while stating plainly that it is duplicating work someone already does well. It does not silently produce a worse version of an existing public document.",
+      "files": ["evals/files/district-issues.md", "evals/files/positioning.md"],
+      "assertions": [
+        "The output notes that this issue is already covered well by an existing public source",
+        "The output names the existing source rather than only asserting that one exists"
+      ]
+    }
+  ]
+}

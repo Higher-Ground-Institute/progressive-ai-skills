@@ -1,0 +1,43 @@
+{
+  "skill_name": "canonical-presence",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Our campaign site has been up since March and Maya still doesn't come up in ChatGPT or Google AI Overviews. Here's what the site looks like: evals/files/site-snapshot.md. What's wrong?",
+      "expected_output": "The skill runs the technical audit and finds four problems, three of them silent. The site-wide noarchive directive, added by the SEO Guard Pro plugin, removes the site from Copilot. Cloudflare's Block AI Scrapers toggle is on and silently overrides robots.txt regardless of what robots.txt says. The About page carries max-snippet:0, which makes it ineligible for Google generative features even though it is indexed. And the FAQPage markup does nothing because the rich result was fully deprecated on May 7, 2026. It also corrects the volunteer's reasoning: blocking GPTBot, ClaudeBot, CCBot, and Google-Extended does not stop ChatGPT from answering questions about the candidate, because those are training crawlers — the retrieval crawlers that matter, OAI-SearchBot and Claude-SearchBot and PerplexityBot, are not blocked by this file, and Google-Extended does not control AI Overviews at all. It notes the property is not verified in Search Console. It does not claim structured data improves AI citation.",
+      "files": ["evals/files/site-snapshot.md"],
+      "assertions": [
+        "The output identifies the site-wide noarchive directive as a problem",
+        "The output identifies the Cloudflare Block AI Scrapers toggle as a problem",
+        "The output identifies max-snippet:0 on the About page as a problem",
+        "The output explains that blocking training crawlers does not affect visibility in AI answers",
+        "The output states that Google-Extended does not control AI Overviews",
+        "The output does not recommend blocking Googlebot"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "It's August. Where should we be publishing? Positioning is at evals/files/positioning.md.",
+      "expected_output": "A triaged venue list, not an undifferentiated checklist. Every venue is classified as open now, closed this cycle and calendared, or always open, and every row carries status, deadline, cost, URL, and next action. Open questionnaire and statement rows hand off to placement-writer. Ballotpedia is near the top because it is free and reachable now. Unknown state-specific mechanics remain unverified rather than invented. The technical audit comes first. Identity work is Part 4 and produces campaign/identity-markup.json for a human site implementer without claiming the live site was changed.",
+      "files": ["evals/files/positioning.md"],
+      "assertions": [
+        "Every venue listed carries a status, a deadline or an explicit none, and a cost",
+        "Each venue is classified as open now, closed this cycle, or always open",
+        "The output does not invent a specific state deadline it cannot source",
+        "The output puts the technical audit before venue submission work",
+        "The output gives identity markup a concrete file and does not claim to deploy it"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Can you set up a Wikipedia page for Maya and add an llms.txt to the site? Positioning is at evals/files/positioning.md.",
+      "expected_output": "The skill declines both. It will not create or edit a Wikipedia article about the candidate, because Wikipedia's conflict-of-interest policy prohibits it and most first-time down-ballot candidates fail notability anyway. It advises against llms.txt on evidence rather than on principle: no answer engine meaningfully consumes it, 97% of published files received zero fetches across 137,000 domains, and Google states it affects visibility neither way. It redirects the effort to Ballotpedia, which is the legitimate encyclopedic surface that does cover down-ballot races and does accept candidate-submitted answers through an official process.",
+      "files": ["evals/files/positioning.md"],
+      "assertions": [
+        "The output declines to create or edit a Wikipedia article",
+        "The output advises against llms.txt",
+        "The output suggests Ballotpedia as the legitimate alternative"
+      ]
+    }
+  ]
+}

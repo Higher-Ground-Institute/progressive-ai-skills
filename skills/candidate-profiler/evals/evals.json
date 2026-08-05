@@ -1,0 +1,29 @@
+{
+  "skill_name": "candidate-profiler",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I'm running for county commission. I care about fairness and making sure working families get a fair shot.",
+      "expected_output": "The skill does not accept the platitude and does not start writing a profile. It asks at least one specific follow-up aimed at a concrete instance — a particular family, a particular thing that happened, a date — and it moves toward work history rather than issues, because earned standing comes out of what someone did for a living. It records nothing as a position. It invents no biography. It behaves like one turn of an interview rather than emitting a wall of questions at once.",
+      "assertions": [
+        "The output asks at least one follow-up question",
+        "The output does not record 'fairness' or 'working families' as a position the candidate holds",
+        "The output invents no biographical details that were not in the input",
+        "The output does not produce a finished candidate profile from this single vague answer"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "That's everything about me. Write up my profile. The transcript is at evals/files/interview-transcript-thin.md.",
+      "expected_output": "A profile that reflects how thin the interview actually was. It includes a no-position-yet section listing the school bond, the permitting backlog, the water and sewer rate increase, and county taxes, each with a specific question to resolve it — not just a topic name. It includes an earned-standing entry built on the parts-counter answer about combine downtime and which operations are one breakdown from selling, because that is the one thing in the transcript no other candidate could say. It does not record 'there's waste in the budget' as a position, because the candidate could not name a line. Sections the interview never reached are marked as not asked or logged as open follow-ups rather than filled in. It flags that the interview stopped at fourteen minutes and that a second session is needed.",
+      "files": ["evals/files/interview-transcript-thin.md"],
+      "assertions": [
+        "The output contains a no-position-yet section with at least three entries",
+        "Each no-position-yet entry states a specific question, not only a topic name",
+        "The output does not record a budget position based on the candidate's 'there's waste' answer",
+        "The output invents no biographical details absent from the transcript",
+        "Sections the interview did not cover are marked as unasked or listed as follow-ups rather than filled in"
+      ]
+    }
+  ]
+}

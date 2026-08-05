@@ -1,0 +1,28 @@
+name: Validate skills
+
+on:
+  pull_request:
+    paths:
+      - "skills/**"
+      - "scripts/validate_skills.py"
+      - ".github/workflows/validate-skills.yml"
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  validate:
+    name: Structural validation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # Deterministic, no model calls, no API key, no network. Checks frontmatter and naming
+      # rules from the Agent Skills spec, this repo's section conventions, relative links,
+      # evals.json shape, and that no eval fixture carries real personal data.
+      - name: Validate
+        run: python3 scripts/validate_skills.py

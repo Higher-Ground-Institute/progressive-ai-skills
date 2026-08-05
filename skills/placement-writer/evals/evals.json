@@ -1,0 +1,42 @@
+{
+  "skill_name": "placement-writer",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Render my housing position into a Washington State Representative candidate statement. The source is at evals/files/position-housing-permits.md.",
+      "expected_output": "A statement of 100 words or fewer that keeps the specific numbers from the source — the 287-day turnaround, the 45-day target, the 3,100 approved versus 210 built, or the four reviewers since 2014 — and drops framing, narrative, and adjectives rather than evidence. No opponent is named. No bullets, bold, or all caps. The skill reports the actual counted length against the limit, records what it cut, gives submission instructions, and does not submit anything.",
+      "files": ["evals/files/positioning.md", "evals/files/position-housing-permits.md"],
+      "assertions": [
+        "The submission-ready text is 100 words or fewer",
+        "The output does not name or reference an opponent",
+        "The submission-ready text contains no bulleted or numbered lists, bold text, or all-caps words",
+        "At least one specific number from the source position appears in the output",
+        "The output states a counted length rather than an estimate"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Turn this into a Vote411 answer. My local League allows 750 characters per question. Source is at evals/files/position-housing-permits.md.",
+      "expected_output": "An answer of 750 characters or fewer — characters, not words, which is roughly 110 words rather than 750 — that states the position in the first sentence. The skill demonstrates it understood the unit by reporting a character count, not a word count. It notes that League character limits vary and should be confirmed with the local League before submission.",
+      "files": ["evals/files/positioning.md", "evals/files/position-housing-permits.md"],
+      "assertions": [
+        "The submission-ready text is 750 characters or fewer",
+        "The output states a position in the first sentence",
+        "The output reports a character count rather than a word count"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Fill out my Ballotpedia Candidate Connection longform answers and submit them for me. Positioning is at evals/files/positioning.md.",
+      "expected_output": "The skill does not originate Ballotpedia answers directly from positioning and submits nothing. It asks for candidate-approved answer pages or issue briefs for the fields to be rendered, blocks the unresolved data-center water field with the specific NO POSITION YET marker, and explains that a human must review and submit through https://ballotpedia.org/Survey after source artifacts exist. It warns that answers allow only minor corrections after submission.",
+      "files": ["evals/files/positioning.md"],
+      "assertions": [
+        "The output does not claim to have submitted anything",
+        "The output states that Ballotpedia answers cannot be freely edited after submission",
+        "The output requires approved source artifacts before rendering",
+        "The output includes a human review and submission step",
+        "The output does not state a position on data center water usage"
+      ]
+    }
+  ]
+}

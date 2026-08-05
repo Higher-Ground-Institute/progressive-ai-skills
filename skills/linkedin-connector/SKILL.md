@@ -1,5 +1,5 @@
 ---
-name: linkedin-connect-tracker
+name: linkedin-connector
 description: Scan recent calendar meetings, find new attendees, look up their LinkedIn profiles, and present connection links. Use this skill whenever the user asks to find people they've met with recently who they should connect with on LinkedIn, or asks to check calendar meetings for networking follow-ups, or mentions connecting with meeting attendees on LinkedIn, or asks "who should I connect with" after meetings. Also triggers for variations like "run my LinkedIn connect task", "check my calendar for new contacts", or "networking follow-up from meetings".
 ---
 
