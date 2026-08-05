@@ -1,101 +1,89 @@
 # Issue Brief
 
 **Category:** Content & Comms
-**Effort to set up:** none beyond an existing `campaign/` folder
 
-Writes the best available public reference on one narrow local issue — the data center, the
-rate hike, the school closure, the zoning fight — built from primary records rather than from
-reporting about them. Output goes to `campaign/briefs/<topic-slug>.md`.
+Writes a dated public reference on one narrow local issue from primary records. Output goes to
+`campaign/briefs/<topic-slug>.md`.
 
-## Who it's for
+## When to use it
 
-First-time, down-ballot candidates with no staff: state legislature, county commission, school
-board. It is also the skill a volunteer can run without any AI tool, which is the point — the
-`SKILL.md` contains the complete manual procedure, including how to file a records request and
-how long to expect it to take.
+- Use `issue-brief` when readers need a timeline, numeric comparisons, the decision process,
+  both sides, and instructions for participating.
+- Use [`answer-page`](../answer-page/SKILL.md) when the primary need is where the candidate
+  stands on one voter question.
 
-## What it does
+## Inputs and output
 
-The brief is not a position paper. It is the document that should already exist about the issue
-and does not. Every section is built around one test: **would someone who will never vote for
-this candidate still bookmark it?**
+- Reads `campaign/positioning.md`, `campaign/district-issues.md`, and cited primary records.
+- Uses [`reference/local-agenda-systems.md`](../../reference/local-agenda-systems.md) for record
+  retrieval.
+- Writes from
+  [`campaign-template/briefs/_template.md`](../../campaign-template/briefs/_template.md).
 
-The skill produces a document with:
+## Manual procedure
 
-1. **A dated timeline** of how the decision happened — ordinance numbers, meeting dates, roll-call
-   votes, each linked to the record rather than to coverage of the record
-2. **A numbers table built as a comparison** — this jurisdiction against its neighbors, against
-   its own past, against the state average
-3. **A participation section** — the body, the next meeting, the address, how public comment
-   sign-up works and when it closes
-4. **Both sides steelmanned**, with the opposing case quoted from a real advocate
-5. **The candidate's position, short and clearly separated** from the reference material
-6. **What is still unknown** — pending records requests, unreleased studies, unpublished figures
+1. Open `campaign/positioning.md`. If `approved_by_candidate` is not `true`, stop with
+   `[POSITIONING NOT APPROVED — obtain explicit candidate approval]`.
+2. Narrow the issue to one decision and one decision-making body. Split broader requests.
+3. Check the contested-space survey in `district-issues.md`. Write down the specific
+   information gap the brief will fill. If existing sources already cover the issue well and no
+   concrete gap remains, stop and name those sources. Use `answer-page` if the underlying need
+   is candidate positioning.
+4. Name three real people or organizations unlikely to support the candidate and the concrete
+   use each should get from the brief.
+5. Create the brief from the template. Immediately after frontmatter, record:
+   `<!-- Usefulness test: [person — concrete use]; [person — concrete use]; [person — concrete use] -->`
+   Keep this comment through approval and remove it during the human publishing pass.
+6. Follow [`reference/local-agenda-systems.md`](../../reference/local-agenda-systems.md) to
+   retrieve the agenda, packet, minutes, roll call, ordinance or resolution, budget records,
+   relevant docket filings, and any needed public-records response. Record URL and retrieval
+   date for each.
+7. If records are missing, file a request for named documents and record the agency and filing
+   date in `## What is still unknown`.
+8. Write `## The short version` with what happened, who decides, the material cost or scale,
+   and the next known event.
+9. Build `## How we got here` as a chronological table. Take votes and dates from primary
+   records.
+10. Build `## The numbers` as an honest comparison with neighboring jurisdictions, prior years,
+    or a relevant state benchmark. Source each cell.
+11. Write `## Who decides what happens next` with the body, members, next meeting date and
+    location, public-comment method, and deadline.
+12. Write each side's strongest case in `## The arguments`. Use a cited real advocate where
+    possible and include shared ground.
+13. Handle `## Where [CANDIDATE] stands`:
+    - If the topic appears in `## No position yet`, use
+      `[NO POSITION YET — ask the candidate: <specific question from the table>]`.
+    - If no position of record exists, use
+      `[NO POSITION OF RECORD — run positioning-builder or obtain candidate approval]`.
+    - Otherwise, summarize only the approved position of record and keep it shorter than the
+      factual reference sections.
+14. In `## What is still unknown`, list pending records and unresolved facts. For each live
+    decision, add
+    `[FOLLOW UP YYYY-MM-DD — verify <decision or record> and update this brief]`.
+    This dated artifact entry replaces an unsupported claim that a reminder was created.
+15. Complete `## Sources`. Set `sources_count` to all sources and
+    `primary_records_count` only to actual records, not reporting about them.
+16. Source factual claims inline as
+    `claim ([source](url), retrieved YYYY-MM-DD)`.
+17. Temporarily remove the byline and candidate-position section. Confirm the remaining brief
+    is still useful to each of the three named non-supporters.
+18. Set `status: draft`, leave `published_url` empty, and show the complete artifact to the
+    candidate or authorized human.
+19. After explicit approval, set `status: candidate-approved`.
+20. Hand the approved file and destination instructions to a human. The human publishes it and
+    returns the final public URL.
+21. Remove the internal usefulness-test comment, put the URL in `published_url`, and only then
+    set `status: published`.
 
-Frontmatter carries `sources_count` and `primary_records_count`. The second number counts actual
-records — an ordinance PDF, a minutes page, a docket filing, a budget line — not articles about
-them.
+## Manual checklist
 
-## Prerequisites
-
-- `campaign/positioning.md` with `approved_by_candidate: true`
-- `campaign/district-issues.md` from `district-issue-scan`
-- Access to the jurisdiction's agenda portal, a phone for the clerk, and patience for records
-  requests
-
-## How to use it
-
-Point the skill at one issue: "write the brief on the June 9 tax abatement vote." It reads
-positioning, pulls the primary records, drafts the brief, and stops at a human approval step.
-It never publishes.
-
-If the topic is on the `no-position-yet` list, the brief still gets written — the position
-section carries `[NO POSITION YET — ask the candidate: ...]` and names the open question. That
-is a passing result, not a failure.
-
-## Tips and edge cases
-
-- **Narrow beats broad.** "Schools" is a topic area. "The proposed closure of Kingsbury
-  Elementary" is an issue. If the timeline covers more than one body deciding more than one
-  thing, write two briefs.
-- **Unpopular positions make the brief more valuable, not less.** Document honestly, put the
-  strongest objection where it belongs, keep the position short.
-- **Records take time.** File the request the day you scope the brief and keep writing. Publish
-  with the outstanding request named and dated in `## What is still unknown`.
-- **It goes stale.** Put the next decision date in the participation section and set a reminder
-  for the day after.
-
-## Example
-
-For an invented candidate — Marisol Reyes, running for the Pike County Commission — the brief
-`campaign/briefs/verity-fields-data-center.md` opens with what the commission approved on
-June 9, a timeline table linking each vote to the minutes, a table comparing the county's
-abatement terms to the two counties next door, the date and sign-up rule for the next
-commission meeting, the developer's case and the opponents' case each stated at full strength,
-and six sentences on where Reyes stands.
-
-## What it has been exercised against
-
-Stated precisely, because a repo about not fabricating claims should not fabricate its own
-test history.
-
-- **Three eval cases** in [`evals/evals.json`](evals/evals.json), runnable by
-  `npx agent-skills-eval`: a full brief built from primary records; a request for a brief on
-  "housing," which has to be narrowed to one decision before anything is written; and a
-  request for a brief on an issue the contested-space survey already rates as well covered,
-  where saying so is the passing result. They run against an invented campaign in an invented
-  county.
-- **Structural validation** on every pull request via `scripts/validate_skills.py`, which
-  enforces the agentskills.io spec plus this repo's conventions.
-
-**Not yet done:** the eval suite has not been run against a live model, so no assertion here
-has an observed pass rate, and no real campaign has published a brief written this way. The
-manual procedure in `SKILL.md` — including how to file a records request — is written to be
-followable with a text editor and a phone, but nobody has walked it end to end. If you run it,
-please open an issue and say what broke.
-
-## Related
-
-- [`answer-page`](../answer-page/SKILL.md) — the campaign's position of record on a question
-- [`placement-writer`](../placement-writer/SKILL.md) — renders a brief down to fit a venue
-- [`reference/shared-rules.md`](../../reference/shared-rules.md) — the rules every skill enforces
+- [ ] Positioning approval, narrow scope, and contested-space gap were checked.
+- [ ] Three non-supporters and their concrete uses are recorded in the specified comment.
+- [ ] Timeline events, comparisons, participation details, and arguments are sourced.
+- [ ] Every factual claim has an inline source and retrieval date.
+- [ ] `primary_records_count` counts records rather than articles.
+- [ ] The position section uses the approved position or the required marker.
+- [ ] Every live decision has a dated `[FOLLOW UP ...]` entry.
+- [ ] The brief passes the delete test without its byline and position section.
+- [ ] `date_modified` changes only after substantive edits.
+- [ ] A human supplied `published_url` before status became `published`.

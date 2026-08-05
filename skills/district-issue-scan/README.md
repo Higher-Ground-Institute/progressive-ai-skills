@@ -2,60 +2,70 @@
 
 **Category:** Research & Data
 
-Builds a ranked, sourced inventory of what people in one specific jurisdiction actually argue about. It finds the local government's meeting records — wherever they happen to live — reads them, checks local coverage, catalogs the ballot measures voters will see alongside the race, and writes `campaign/district-issues.md`.
+Builds `campaign/district-issues.md`: a ranked, sourced inventory of local issues, the
+governing bodies responsible, ballot measures on the campaign's confirmed election ballot,
+and who already explains each issue.
 
 ## Who it's for
 
-First-time, down-ballot candidates and the volunteers helping them: state legislature, county commission, city council, school board. Anyone who has been told to "run on local issues" and discovered that nobody has written down what those are.
-
-## What it does
-
-The core of the skill is a **detection procedure**, not a list. There is no national registry of local agenda software, so the skill works out where the records live for whatever jurisdiction you point it at:
-
-1. Find the official agenda page for each governing body.
-2. Read the hostname to identify the vendor — `{client}.legistar.com`, `{st}-{jurisdiction}.civicplus.com/AgendaCenter`, `{jurisdiction}.granicus.com`, PrimeGov, CivicClerk.
-3. Pull the records through the vendor's API or a supported scraper. Legistar has a public web API; [`civic-scraper`](https://github.com/biglocalnews/civic-scraper) covers the rest.
-4. Fall back to downloading agenda PDFs and reading them by hand, which is what most water districts and library boards require.
-
-It scans city or village council, county commission, school board, water and sewer district, planning and zoning, library board, and transit authority. The boring bodies usually carry the sharpest local fights.
-
-Issues are then **ranked by documented salience** — public-comment counts from the minutes, contested votes with the tally, rate increases with the dollar figure, petitions, repeated coverage. Not national issue polling, not what the campaign assumes.
-
-Finally it runs a **contested-space survey**: for each issue, who already publishes a good answer, and how good it is. This is the field that decides whether writing about an issue is worth the campaign's time.
+Down-ballot candidates and volunteers who need local issue research before
+`positioning-builder`.
 
 ## Prerequisites
 
-- The jurisdiction name and one street address inside the district
-- Web access — that is genuinely it
-- Optional: an Open States API key for state-legislative district lookups (free, rate-limited to roughly 10 requests per minute and 500 per day)
-
-No paid data vendor is required, and the skill has a complete manual procedure for anyone working without an AI tool.
+- Campaign frontmatter containing `election_date`
+- The jurisdiction and one address in the district
+- Web access
+- Optional Open States access for state-legislative boundary checks
 
 ## How to use it
 
-Ask for a district issue scan and name the jurisdiction: *"scan the issues in Cordwell County, Ohio for a county commission race."* The skill resolves the district boundary, detects the agenda vendor per body, pulls twelve months of records, and drafts the file.
+Request a scan for a named jurisdiction and race. The skill verifies the election, resolves
+the boundary, separates bodies on the ballot from context bodies, applies the shared agenda
+record procedure, ranks issues by local evidence, and drafts the output for human review.
 
-Then read it with someone who knocks doors. Where the ranking does not match what they hear, go find the record — do not reorder on instinct.
+## Manual procedure
 
-Output goes to `campaign/district-issues.md`, which `positioning-builder` reads next.
+Plan for roughly two working days with a browser, notebook, and spreadsheet or the Markdown
+template.
 
-## Tips and edge cases
-
-- **Minutes, not agendas.** Agendas say what was scheduled. Minutes say who showed up, who spoke, and how the vote split. Salience lives in the minutes.
-- **News deserts are a finding, not a failure.** If no outlet covers the water district, the skill says so in `## Dead ends and gaps` and leans harder on primary records. A short honest scan beats a padded one.
-- **Dead ends get logged.** Every source checked appears in the sources table with its yield, including the zeros. That is how the next volunteer avoids re-running your searches.
-- **The place-swap test.** Swap the county name for a different one. If the issue list still reads fine, it is national boilerplate and the scan failed.
-- **Legistar client slugs are guessable but verify them.** The word before `.legistar.com` is the client name, and `https://webapi.legistar.com/v1/{Client}/Events` usually works without a key. Usually.
-
-## Example
-
-Searching `Cordwell County commissioners agenda` lands on `cordwellcounty.legistar.com/Calendar.aspx`. Hostname says Legistar, client slug is `cordwellcounty`, so events come from `https://webapi.legistar.com/v1/cordwellcounty/Events`. The school board turns out to be on CivicPlus and needs `civic-scraper`. The regional water district has no vendor at all — twelve months of PDFs on a WordPress site, read by hand, which is where the sewer-rate fight was hiding.
+1. Read `election_date` from campaign frontmatter. Confirm the election name and date using the
+   county clerk/elections office or Secretary of State. Record the official URL, retrieval
+   date, election name, and ISO date used. Do not substitute a November general election.
+2. Resolve the district boundary from official maps or election records. Record the OCD-ID if
+   available.
+3. Obtain the official certified ballot or official candidate-and-measure list for the
+   confirmed election. Inventory county, municipal, school, water/sewer, planning, library,
+   transit, hospital, and other relevant bodies. Label each `on-ballot` or `context-only`.
+4. Set a scan window of at least twelve months. Give each body a separate worksheet or notebook
+   page.
+5. For each body, follow
+   [`reference/local-agenda-systems.md`](../../reference/local-agenda-systems.md) exactly.
+   Record the official records URL, detected vendor or `none-found`, retrieval method, window,
+   date checked, and yield.
+6. Treat empty API responses and null tally fields as unknown, not absence. Open blocked or
+   JavaScript document libraries in a browser. For image-only PDFs, OCR the pages and verify
+   every number against the original image.
+7. Read minutes and packets. Mark contested votes, public-comment counts, rate or tax changes
+   with amounts and dates, petitions, repeat appearances, and unresolved decisions. Do not
+   infer a tally from an agenda or API field.
+8. Search local outlet archives, legal notices, government explainer pages, incumbents, and
+   relevant organizations for each marked item. Record paywalls and searches that yield
+   nothing.
+9. Catalog local measures only from the certified ballot or official measure list for the
+   verified election.
+10. Rank issues by the marked evidence. Keep the responsible body's ballot classification
+    visible. Cut generic issues and accept fewer than three when the record supports fewer.
+11. For each retained issue, record who currently explains it and score the explanation for
+    completeness, recency, sourcing, and readability.
+12. Fill the template, including every dead end and zero-yield source. Show it to someone who
+    works doors; make changes only when additional evidence supports them.
 
 ## What it has been exercised against
 
-Stated precisely, because a repo about not fabricating claims should not fabricate its own test history.
+- Three cases in [`evals/evals.json`](evals/evals.json): source detection before naming issues,
+  refusal to provide unsourced "top issues," and contested-space analysis.
+- Structural validation through `scripts/validate_skills.py`.
 
-- **Three eval cases** in [`evals/evals.json`](evals/evals.json), runnable by `npx agent-skills-eval`: source detection from a volunteer's raw search log, one row per governing body before any issue is named; the "top five issues, I don't need sources" request, which has to be refused rather than answered from general knowledge; and a contested-space survey over an issue list the campaign supplied. They run against an invented county with `example.org` hostnames.
-- **Structural validation** on every pull request via `scripts/validate_skills.py`, which enforces the agentskills.io spec plus this repo's conventions.
-
-**Not yet done:** the eval suite has not been run against a live model, so no assertion here has an observed pass rate, and no real campaign has scanned a real district with it. The manual procedure in `## Doing this without an agent` is written for a library computer and no AI tool, but nobody has walked it end to end. If you run it, please open an issue and say what broke.
+The eval suite has not been run against a live model, and the manual procedure has not been
+validated on a real campaign district.

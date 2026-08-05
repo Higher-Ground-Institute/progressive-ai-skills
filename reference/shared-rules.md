@@ -8,13 +8,10 @@ message and publish it where voters and answer engines will find it:
 `answer-page`, `issue-brief`, `placement-writer`, `canonical-presence`, and
 `local-media-pitch`.
 
-Every one of them enforces the same four rules. The rules are written out here once so the
-wording stays identical everywhere, and each `SKILL.md` restates the ones it needs inline —
-because a skill that only works when someone remembers to read a second file is a skill that
-fails in practice.
-
-If you are writing a new skill in this family, copy the blocks verbatim. Do not paraphrase
-them. The exact wording is what makes the behavior testable.
+Every one of them enforces the same seven rules. The complete rules live here. Each
+`SKILL.md` repeats the short, skill-specific invariants needed at execution time and links
+back here for the full contract. Hard stops must remain explicit in the skill; rationale and
+examples do not need to be repeated.
 
 ---
 
@@ -24,11 +21,13 @@ This is the most important rule in the set. A language model asked what a candid
 about anything will produce a confident answer. That answer is a fabrication, and if it ends
 up in a voter guide it is a fabrication published under the candidate's name.
 
-**Block to copy into any skill that writes candidate-attributed text:**
+**Canonical heading:** `## No position yet` in `campaign/positioning.md`.
+
+**Invariant for any skill that writes candidate-attributed text:**
 
 > **Before writing, read the `no-position-yet` list in `campaign/positioning.md`.** If the
 > topic you were asked to write about appears on that list, do not write a position. Output
-> this instead, and then continue with the rest of the task:
+> this instead:
 >
 > `[NO POSITION YET — ask the candidate: <the specific question they need to answer>]`
 >
@@ -41,6 +40,25 @@ up in a voter guide it is a fabrication published under the candidate's name.
 forward unchanged — it may add to the list, but it may never resolve an entry by inference.
 Every writing skill reads it before drafting.
 
+**Topic matching:** compare the request with each row's topic and `topic_slug`. Match exact
+slugs, case-insensitive topic names, and unambiguous containment such as "water usage" within
+"data-center water usage." If more than one row could match, ask the human which row applies
+before writing.
+
+The correct response depends on the artifact:
+
+- `answer-page`: stop; do not create a position page.
+- `issue-brief`: continue the factual reference sections; put the marker in the candidate
+  position section.
+- `placement-writer`: for a single-topic placement, stop; for a multi-question form, put the
+  marker only in the affected field and continue with approved fields.
+- `local-media-pitch`: block op-eds and letters that require a position; a factual story tip
+  or document share may continue only when its news value does not depend on candidate stance.
+
+If a topic appears in neither `## No position yet` nor `## Positions of record`, output:
+
+`[NO POSITION OF RECORD — run positioning-builder or obtain candidate approval]`
+
 Refusing to write a position is a **passing** result, not a failure. The eval suites in this
 repo test for it explicitly.
 
@@ -48,7 +66,7 @@ repo test for it explicitly.
 
 ## Rule 2 — Sourcing
 
-**Block to copy:**
+**Invariant:**
 
 > Source every factual claim inline, with the source date. Format:
 > `claim ([source name](url), retrieved 2026-08-04)`.
@@ -73,7 +91,7 @@ Reddit, Facebook groups, and Wikipedia are all heavily weighted in AI answers, w
 exactly why they are the line rather than the opportunity. One screenshot of a campaign
 astroturfing does more damage than every placement in this playbook combined.
 
-**Block to copy:**
+**Invariant:**
 
 > **Never** draft anonymous, pseudonymous, or apparently-organic community posts. Never write
 > in the voice of a journalist, a neutral observer, a constituent, or anyone other than the
@@ -99,7 +117,7 @@ manipulative tactics here are also the ineffective ones. See
 
 ## Rule 4 — Human approval and human submission
 
-**Block to copy:**
+**Invariant:**
 
 > This skill never submits, posts, publishes, or sends anything. It produces a draft and the
 > exact instructions for a human to submit it.
@@ -112,11 +130,28 @@ Several venues in this playbook are effectively one-shot. Ballotpedia allows onl
 corrections after submission. A paid county voter-pamphlet statement is printed. Getting a
 human to read the thing before it becomes permanent is the whole point of the step.
 
+An agent may set an approval field to true only after explicit human confirmation in the
+current interaction. It may never infer approval from silence, prior drafts, or a default.
+
+### Artifact lifecycle
+
+Published artifacts follow one lifecycle:
+
+`draft` → `candidate-approved` → `published`
+
+- The agent writes a draft and leaves `published_url` empty.
+- After explicit approval, the agent may set `status: candidate-approved`.
+- A human publishes. The human supplies the final public URL.
+- Only then may the agent set `published_url` and `status: published`.
+
+Direct submissions such as op-eds, letters, questionnaires, and voter-guide responses use
+their venue-specific `submitted` or `sent` state instead of `published`.
+
 ---
 
 ## Rule 5 — Never put personal data into a consumer AI tool
 
-**Block to copy:**
+**Invariant:**
 
 > Never paste voter names, home addresses, voter ID numbers, phone numbers, donor financial
 > data, or reporter contact lists into a consumer AI chat interface. Work from aggregate
@@ -144,7 +179,7 @@ fair game. Their contact details are not, unless they published them for contact
 
 ## Rule 6 — One page per position, not one page per phrasing
 
-**Block to copy:**
+**Invariant:**
 
 > Publish one page per substantive position — housing, water, schools — never one page per
 > search phrasing. If asked to produce a page for each way someone might search for the same
@@ -158,7 +193,7 @@ fair game. Their contact details are not, unless they published them for contact
 
 ## Rule 7 — Dates mean something
 
-**Block to copy:**
+**Invariant:**
 
 > Every artifact carries `date_created` and `date_modified` in its frontmatter, in ISO 8601.
 > Change `date_modified` only after a substantive edit to the content. Never bump a date to
@@ -203,6 +238,7 @@ campaign/
   placements/               # placement-writer writes
   pitches/                  # local-media-pitch writes
   presence.md               # canonical-presence writes
+  identity-markup.json      # canonical-presence writes for a human site implementer
 ```
 
 Plain Markdown with YAML frontmatter, on the filesystem. That choice is deliberate: it works
@@ -226,11 +262,11 @@ argues with it, and signs off. Everything after it is execution.
 
 ## Working without an agent
 
-Every skill in this family has a `## Doing this without an agent` section containing the
-complete manual procedure. This is a hard requirement, not a courtesy.
+Every skill README contains the complete manual procedure. Its `SKILL.md` carries a short
+pointer so agent execution is not diluted by a second copy of the workflow.
 
-The acceptance test: hand the `SKILL.md` to a non-technical volunteer who has no AI tool and
-ask them to produce the output. If they stall at any step, the skill is incomplete — the
-missing information is a defect in the skill, not a limitation of the volunteer.
+The acceptance test: hand the README and templates to a non-technical volunteer who has no
+AI tool and ask them to produce the output. If they stall, the missing information is a
+defect in the procedure.
 
 Most campaigns that need this playbook cannot afford a subscription to anything.

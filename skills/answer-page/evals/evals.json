@@ -18,6 +18,16 @@
       "prompt": "Write my answer page on the Millbrook school bond. Positioning file is at campaign/positioning.md.",
       "expected_output": "A dated page that answers the question in its first paragraph — Ellison supports Measure B — followed by Why, What I would do, What I don't know yet, and a Sources table. Every factual claim carries an inline source with a retrieval date, and every number traces to the positioning file: the four roofs past service life, the $31 million estimate, the $1.4 million capital reserve, the $71 annual tax impact. It contains no statistic, quote, or date absent from the positioning file. The What I don't know yet section reflects the real stated uncertainty about Eastside Elementary consolidation rather than generic hedging. It states that a county commissioner does not vote on the bond. It ends with an approval step and does not publish anything.",
       "files": ["evals/files/positioning.md"]
+    },
+    {
+      "id": 4,
+      "prompt": "Write my answer page on county broadband expansion. Positioning file is at campaign/positioning.md.",
+      "expected_output": "The skill finds that broadband appears in neither `## No position yet` nor `## Positions of record`. It stops with `[NO POSITION OF RECORD — run positioning-builder or obtain candidate approval]` and does not infer a stance from party, biography, or other positions.",
+      "files": ["evals/files/positioning.md"],
+      "assertions": [
+        "The output contains the NO POSITION OF RECORD marker",
+        "The output does not invent a broadband position"
+      ]
     }
   ]
 }

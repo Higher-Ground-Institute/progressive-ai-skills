@@ -8,7 +8,8 @@ jurisdiction: "Ashfield County"
 author: "Maya Ellison"
 date_created: "2026-07-30T09:15:00-05:00"
 date_modified: "2026-07-30T09:15:00-05:00"
-status: candidate-approved
+status: published
+published_url: "https://mayaellison.example.org/issues/housing-permits"
 sources_count: 7
 ---
 

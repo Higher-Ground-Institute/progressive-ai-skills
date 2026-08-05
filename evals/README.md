@@ -188,7 +188,7 @@ leak voter data, and eval fixtures are the easiest place to do it by accident.
 
 ## Cost
 
-Every case runs twice, once per arm. Twenty-five cases is fifty runs. Keep the set small — the
+Every case runs twice, once per arm. Twenty-seven cases is fifty-four runs. Keep the set small — the
 spec recommends 2–3 cases per skill anyway, and we are only slightly over that.
 
 Run Stage 0 on every pull request. Run Stage 1 on demand or on a schedule, since it costs

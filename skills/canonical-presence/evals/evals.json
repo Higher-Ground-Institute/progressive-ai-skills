@@ -18,13 +18,14 @@
     {
       "id": 2,
       "prompt": "It's August. Where should we be publishing? Positioning is at evals/files/positioning.md.",
-      "expected_output": "A triaged venue list, not an undifferentiated checklist. Every venue is classified as open now, closed this cycle and calendared, or always open, and every row carries a status, deadline, cost, URL, and next action — including $0 and no deadline, which are findings. Ballotpedia Candidate Connection is at or near the top because it is free, self-serve, open at any level, and reachable today. The skill states that it cannot verify state-specific deadlines without knowing the state and gives the derivation procedure for finding them, rather than inventing dates. It warns that Ballotpedia answers allow only minor corrections after submission. It runs or insists on the technical audit first.",
+      "expected_output": "A triaged venue list, not an undifferentiated checklist. Every venue is classified as open now, closed this cycle and calendared, or always open, and every row carries status, deadline, cost, URL, and next action. Open questionnaire and statement rows hand off to placement-writer. Ballotpedia is near the top because it is free and reachable now. Unknown state-specific mechanics remain unverified rather than invented. The technical audit comes first. Identity work is Part 4 and produces campaign/identity-markup.json for a human site implementer without claiming the live site was changed.",
       "files": ["evals/files/positioning.md"],
       "assertions": [
         "Every venue listed carries a status, a deadline or an explicit none, and a cost",
         "Each venue is classified as open now, closed this cycle, or always open",
         "The output does not invent a specific state deadline it cannot source",
-        "The output puts the technical audit before venue submission work"
+        "The output puts the technical audit before venue submission work",
+        "The output gives identity markup a concrete file and does not claim to deploy it"
       ]
     },
     {

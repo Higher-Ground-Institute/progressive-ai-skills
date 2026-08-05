@@ -1,79 +1,81 @@
 ---
 name: local-media-pitch
-description: Writes one outlet-specific, reporter-specific pitch built on a published campaign answer page or issue brief — story tip, op-ed submission, letter to the editor, interview offer, or document share — after verifying that outlet's word limit, exclusivity terms, election-period restrictions on candidate copy, deadline, and submission address. Refuses to draft anything anonymous or written in the voice of anyone other than the campaign, and refuses to send a pitch that fails the is-this-actually-news test. Reads campaign/district-media-map.md and writes campaign/pitches/. Use this when a campaign wants local press coverage, wants to submit an op-ed or a letter to the editor, has a document or public record a reporter should see, or asks how to get a story written about an issue it has published on.
+description: Writes an outlet-specific cover email, story tip, interview offer, or document share after checking the pitch-type approval gate and the outlet's current acceptance rules. Uses fresh mechanics from campaign/district-media-map.md, never impersonates an independent source, and never sends. Use this for local press outreach or to route a candidate-approved op-ed/LTE placement to an outlet.
 ---
 
 # Local Media Pitch
 
-**Reads:** `campaign/district-media-map.md` (required) plus exactly one
-`campaign/answers/<slug>.md` or `campaign/briefs/<slug>.md`.
+**Reads:** approved `campaign/positioning.md`; `campaign/district-media-map.md`; and either one
+published answer/brief or one candidate-approved op-ed/LTE placement, as the routing table requires.
 **Writes:** `campaign/pitches/<outlet>-<topic>.md`.
 
 A pitch is not a press release with a salutation. It is one reporter, one story, one piece of
 evidence they can check, and one ask small enough to say yes to in a hallway.
 
-The pitch exists because the campaign already published something. If there is no answer page
-or brief behind it, stop and write that first — a pitch with nothing to link to is an email
-asking a reporter to do the campaign's work.
+This skill owns outreach and cover copy. `placement-writer` owns the submission-ready op-ed or
+LTE body. Do not duplicate that body in the cover-email field.
 
 ## Writes to journalists, never as them
 
-From [`reference/shared-rules.md`](../../reference/shared-rules.md) Rule 3, verbatim:
-
-> **Never** draft anonymous, pseudonymous, or apparently-organic community posts. Never write
-> in the voice of a journalist, a neutral observer, a constituent, or anyone other than the
-> candidate and the campaign.
->
-> **Never** edit or create a Wikipedia article about the candidate or their opponent.
-> Wikipedia's conflict-of-interest policy prohibits it, and getting caught is worse than the
-> article not existing.
->
-> Everything this skill produces is **candidate-attributed, human-reviewed, and
-> human-posted**, on a property the campaign controls or through a disclosed submission
-> process where the campaign identifies itself.
->
-> Never present an AI-generated image of the candidate or an opponent as a photograph.
-
-In practice: no anonymous tips, no letters drafted for a supporter to sign as their own words,
-no "concerned parent" framing, no pretending to be an unaffiliated source. Every pitch is
-signed by a named human at the campaign with a real phone number.
+No anonymous tips, supporter ghostwriting, "concerned parent" framing, or journalist voice.
+Every pitch identifies the campaign and is signed by a named human with a real phone number.
 
 ## Output Format
 
 Write to `campaign/pitches/<outlet>-<topic>.md` using
 [`campaign-template/pitches/_template.md`](../../campaign-template/pitches/_template.md).
 The frontmatter carries `outlet`, `reporter`, `reporter_email`, `beat`, `pitch_type`,
-`source_artifact`, `word_limit`, `deadline`, `election_blackout_rule`, `status`, `sent_date`,
-and `sent_by`. The body carries: who this is going to and why, a subject line under 60
-characters, the email itself, what is attached or linked, the honest self-check, the
-follow-up plan, and the approval block.
+`source_artifact`, `word_limit`, `deadline`, `election_blackout_rule`, and lifecycle status
+(`draft` | `candidate-approved` | `sent`). The body carries the recipient and rationale,
+a subject line under 60 characters, the cover email, attachments or links, the self-check,
+follow-up plan, and approval block.
 
 `election_blackout_rule` is never blank. Either quote the rule with the URL where you found
 it, or write "none published — confirmed with <name> on <date>."
 
+## Routing and gates
+
+| Pitch type | Required source | Position gate | Outlet gate | Output |
+|---|---|---|---|---|
+| Story tip | Published answer/brief at a live URL | If unresolved, facts only; no candidate stance | Outlet accepts tips and reporter covers the beat | Short attributed email linking the live artifact and primary record |
+| Interview offer | Published answer/brief at a live URL | Topic is approved | Outlet accepts interview pitches and reporter covers the beat | Short attributed availability email |
+| Document share | Published answer/brief at a live URL plus the described records | If unresolved, facts only; no candidate stance | Outlet/reporter accepts document tips | Short attributed email with records |
+| Op-ed submission | Candidate-approved op-ed placement | Placement contains no missing-position marker | Outlet accepts candidate op-eds now | Cover email plus separate placement body/attachment |
+| Letter to the editor | Candidate-approved LTE placement | Placement contains no missing-position marker | Outlet accepts candidate LTEs now | Cover email plus separate placement body/attachment |
+
+For every type, `campaign/positioning.md` must be candidate-approved. An unknown position
+stops op-eds, LTEs, and interview offers that would state a stance. A story tip or document
+share may continue from a published factual brief only when the email states no candidate
+position. This skill does not insert a marker into a single-topic email. Linked campaign
+artifacts must be `published` and their URLs must load.
+
 ## Steps
 
-1. **Pick the artifact first.** One answer page or brief, already published on the campaign
-   site at a live URL. If it is still a draft, the pitch waits.
-2. **Run the honest self-check now, not at the end, and record the answer in the file.**
+1. **Apply the routing table first.** Select one eligible source. For direct op-ed/LTE
+   submission, consume the candidate-approved placement from `placement-writer`; do not rewrite
+   its body. For story tips, interview offers, and document shares, require a published
+   answer/brief and live URL.
+2. **For story tips, run the honest self-check now and record it in the file.**
    Ask: *is this actually news, or does the campaign just want coverage?* News is a new
    development, a public record nobody has reported, a decision with a date on it, or a
    consequence someone can point at. A candidate having an opinion is not news. **If the
-   answer is "we want coverage," do not send it.** Say so and stop. A reporter remembers who
-   wastes their time, and one wasted pitch costs the next three.
-3. **Match the artifact to the outlet** using the citation-value ranking in the media map, not
+   answer is "we want coverage," stop that story tip.** For other pitch types, apply the
+   source, position, beat, and outlet-acceptance gates in the routing table.
+3. **Use the media map before researching.** Match the artifact to the outlet using its
+   citation-value ranking, not
    circulation. A nonprofit newsroom with 4,000 subscribers that covers the county commission
    beats a regional daily running wire copy, both for the reader and for what gets cited
-   later. Check the paywall column: coverage nobody can read is worth less.
-4. **Match the outlet to one reporter.** Named, on the beat, currently working there. Not the
-   general tip line, not four reporters at once, not the editor unless the media map says the
-   editor is the intake.
-5. **Read a recent story by that reporter and name it in the pitch.** This is required, not
-   polite. "You covered the rate increase in March; this is what happened at the September
-   meeting" is a pitch. "You cover Jackson County" is a mailing list. Record the story's URL
-   and date in the file.
-6. **Verify the submission mechanics before drafting**, from the outlet's own page, with the
-   URL and the date you checked:
+   later. Reuse a complete row checked within the last 30 days. Recheck only fields that are
+   missing, marked unverified, or older than 30 days; record the new source and check date.
+4. **Use the route for the selected type.** Story tips, interview offers, and document shares
+   go to one named beat reporter unless the outlet lists a dedicated intake. Op-eds go to the
+   opinion route; LTEs go to the letters route. Never send the same pitch to multiple staff at
+   one outlet.
+5. **For reporter-routed pitches, read a recent relevant story and name it.** Record its URL
+   and date. This step does not apply to a form-only opinion or letters intake.
+6. **Verify that the outlet accepts this exact pitch type now.** Use fresh media-map mechanics;
+   research only stale or incomplete fields. Required fields are acceptance of the type,
+   recipient/route, word limit if applicable, exclusivity, deadline, and election-period rule:
    - **Word limit** — letters typically run a few hundred words and op-eds several hundred
      more, but the only number that counts is the one on that outlet's page. It is a hard
      limit, not a target. Count words, not characters.
@@ -81,41 +83,30 @@ it, or write "none published — confirmed with <name> on <date>."
      in one market gets a campaign quietly blacklisted at both.
    - **Election-period restrictions on candidate copy** — many outlets stop running candidate
      letters and op-eds some number of weeks before an election, and campaigns get caught by
-     this constantly. Find the exact rule and the exact cutoff date, counting back from
-     November 3, 2026, and put that date in the campaign calendar the day you find it.
+     this constantly. Read `election_date` from approved positioning, verify it, calculate any
+     cutoff from that date, and record both the rule and calculated cutoff.
    - **Where it goes and who reads it** — the submission address is often not the newsroom
      address, and a form is often not optional.
-7. **Choose the pitch type**, which changes the shape but never the honesty:
-
-   | Type | What it is | Typical length | Goes to |
-   |---|---|---|---|
-   | Story tip | Here is a development you should look at | Under 200 words | The beat reporter |
-   | Op-ed submission | Candidate-bylined argument | The outlet's limit, exactly | The opinion editor |
-   | Letter to the editor | Short response to something published | The outlet's limit | The letters address |
-   | Interview offer | Candidate available on a specific topic | Under 150 words | The beat reporter |
-   | Data / document share | Here are the primary records, no strings | Under 150 words | The beat reporter |
-
-   **The document share is the underrated one.** A campaign that hands a reporter the four
-   years of billing data it pulled from county records, organized, with no demand attached,
-   becomes a source instead of a supplicant. The reporter may write nothing this month and
-   call first the next three times. Send it anyway.
-8. **Write the email. Under 200 words.** Five parts, in order: one sentence on what is
+7. **Write the cover email to the verified route.** Story tips should ordinarily stay under
+   200 words; interview offers and document shares under 150. These are defaults, not limits on
+   an op-ed/LTE body. For an op-ed or LTE, keep the cover email brief and place the
+   candidate-approved body in the outlet-required separate field or attachment.
+   Use five parts, in order: one sentence on what is
    happening and why it is news *now*; two or three sentences of specific evidence with the
    primary record linked — the ordinance, the minutes, the budget line, not the campaign's
    summary of them; what the campaign can provide (the candidate on the record, the underlying
    documents, a resident willing to talk); one concrete low-friction ask; then name, role,
    phone, email. Reporters read the first two sentences, so put the news in them.
-9. **Check every fact against the source artifact.** Everything in the pitch is already
+8. **Check every fact against the source artifact.** Everything in the pitch is already
    sourced in the answer page or brief. If a number in the pitch is not in the artifact, one
    of the two is wrong. Never introduce a new claim in a pitch.
-10. **Get human approval.** Show the candidate the exact text, the recipient, and the ask.
-    Confirm the reporter's name, outlet, and email are still current today — beat reporters
-    move constantly. Set `status: candidate-approved`. **A human sends it.** This skill never
-    emails anyone, and it never puts a reporter contact list into a chat window; see
-    [`reference/shared-rules.md`](../../reference/shared-rules.md) Rule 5.
-11. **Follow up once.** One follow-up, one week later, one paragraph: the original ask,
+9. **Get human approval.** Show the candidate the exact cover email, separate placement body
+   when applicable, recipient, and ask. Recheck recipient data only if stale or incomplete.
+   Set `status: candidate-approved`. A named human sends it; this skill never sends.
+10. **Follow up once.** One follow-up, one week later, one paragraph: the original ask,
     restated, plus anything new. Then stop. Record `sent_date` and the follow-up date in the
-    file so the next volunteer does not start the clock over.
+    activity log. Set `status: sent`, `sent_date`, and `sent_by` only after the named human
+    confirms sending.
 
 ## When the media map is nearly empty
 
@@ -142,32 +133,8 @@ have taken.
 
 ## Doing this without an agent
 
-You need the media map, one published answer page or brief, and about an hour per pitch.
-
-1. Open the media map. Pick the outlet with the highest citation value that actually covers
-   this district — not the biggest one.
-2. Go to that outlet's site and read the reporter's last three stories. If none of them touch
-   your topic, you have the wrong reporter or the wrong outlet. Write down the URL and date of
-   the one that comes closest.
-3. Find the outlet's submission page. Search the site for "letters to the editor,"
-   "submission guidelines," and "op-ed." Write down the word limit, the address, and the
-   exclusivity rule. Search the page for "election" and "candidate" to find the campaign-season
-   restriction. If you cannot find one, call the newsroom and ask; then write down the name of
-   who told you and the date.
-4. Before you write a word, answer this on paper: *would this be a story if a different
-   candidate's campaign sent it?* If no, stop. Pick a different artifact.
-5. Copy `campaign-template/pitches/_template.md` into `campaign/pitches/` and name the file
-   for the outlet and the topic.
-6. Write the email in five sentences first, in this order: what happened, the evidence, what
-   you can provide, the ask, your name. Then add detail only where a reporter would ask a
-   follow-up question.
-7. Count the words. If it is over 200, cut adjectives before you cut evidence.
-8. Open every link you included and confirm each one loads and shows what you said it shows.
-9. Read it out loud as if you were the reporter. If the first two sentences do not say what
-   the story is, rewrite them.
-10. Show it to the candidate along with who it is going to. Get an explicit yes.
-11. A human sends it, from a named campaign address, with a phone number in the signature.
-12. Put one calendar reminder seven days out. One follow-up paragraph. Then let it go.
+For freshness checks, outlet verification, pitch-type drafting, and human-send steps, follow the
+full procedure in [`README.md`](README.md).
 
 ## Tips
 

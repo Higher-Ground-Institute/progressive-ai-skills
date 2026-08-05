@@ -2,7 +2,7 @@
 candidate_name: ""
 office_sought: ""            # e.g. "Ohio House of Representatives, District 24"
 jurisdiction: ""             # e.g. "Franklin County, OH"
-election_date: ""            # ISO 8601, e.g. "2026-11-03"
+election_date: ""            # ISO 8601; verify for this exact office, never assume November
 incumbent: false
 party: ""
 campaign_site: ""
@@ -77,8 +77,9 @@ one, write the specific question they need to answer before anyone writes about 
 
 - **[Topic]** — question to resolve: *[the specific question]*
 
-An empty list here means the interview was not thorough enough. Every first-time candidate
-has topics they have not worked through yet. Naming them is preparation, not weakness.
+An empty list is valid only when every issue prompt was asked and the candidate gave a usable,
+settled answer to each one. Otherwise record the unanswered question rather than padding or
+guessing.
 
 ## Voice and register
 

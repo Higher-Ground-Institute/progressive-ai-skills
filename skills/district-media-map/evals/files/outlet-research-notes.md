@@ -7,6 +7,9 @@ Collection notes only. Nothing here has been scored or ranked, and the two-week 
 raw counts written in the margin while reading. Geography covered: Millbrook, Eastside,
 Corbin Township, and the unincorporated eastern half of Ashfield County.
 
+Campaign record: this office is elected at the verified April 6, 2027 spring election. Use
+that date for every outlet cutoff; do not default to the November general.
+
 ## Calder Valley Tribune
 
 - Daily. Owned by Meridian Media Group — a chain with 41 titles.

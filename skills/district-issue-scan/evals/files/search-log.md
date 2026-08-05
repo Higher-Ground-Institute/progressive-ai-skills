@@ -8,6 +8,11 @@
 A volunteer's unprocessed notes from an afternoon of searching. Nothing here has been ranked,
 scored, or checked twice. This is the input, not the scan.
 
+Campaign frontmatter lists the April 6, 2027 spring election. The fictional county elections
+office confirms that date and certifies the District 3 commission seat and Measure B on the
+same ballot. The planning commission, water authority, library board, and school board affect
+the district but have no seat or measure on that ballot and are context-only bodies.
+
 ## Agenda pages, by governing body
 
 **Ashfield County Board of Commissioners.** Searched `Ashfield County commissioners agenda`.

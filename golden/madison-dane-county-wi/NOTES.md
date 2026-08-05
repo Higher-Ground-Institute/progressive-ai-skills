@@ -220,12 +220,10 @@ map records it as `[UNVERIFIED]` for all five outlets, which is the honest state
 priority one in the closing checklist. **A campaign cannot resolve this field from the web.** Any
 scan that returns a confident cutoff date for these outlets invented it.
 
-### 8. "Convert it against Nov 3, 2026" is the wrong election
+### 8. The election date must be resolved for the exact office
 
-`district-media-map` step 7 hardcodes November 3, 2026 as the conversion date, and the same
-assumption runs through `district-issue-scan` step 7 ("Ask the county board of elections for the
-certified November 3, 2026 ballot"). For the offices this playbook is aimed at, that date is
-wrong in Wisconsin.
+The golden run initially used November 3, 2026 as the conversion date. For the offices this
+playbook is aimed at, that date is wrong in Wisconsin.
 
 Wis. Stat. 5.02(21) makes the **spring election**, held the first Tuesday in April, the one that
 elects "judicial, educational, and municipal officers, and non-partisan county officers." Madison
@@ -239,9 +237,8 @@ calendar](https://elections.wi.gov/sites/default/files/documents/2026_2027%20Ele
 retrieved 2026-08-04).
 
 A campaign for a Madison alder seat that computed a 14-day media cutoff against November 3, 2026
-would be off by five months. **The generalizable fix is to resolve the election date for the
-specific office before computing any cutoff, and never to carry a date forward from the skill
-text.** This is now stated as a rule in
+would be off by five months. **Resolve the election date for the specific office before
+computing any cutoff.** The research skills now require that step, and the shared invariant is
 [`reference/shared-rules.md`](../../reference/shared-rules.md) Rule 7.
 
 ### 9. The voter-guide deadline had already passed at scan time
@@ -362,27 +359,16 @@ Two small ones worth recording because both produce plausible wrong answers:
 
 ---
 
-## Suggested changes to the repo
+## Changes incorporated from this run
 
-These came out of building the file rather than reading it, and each names a specific line.
-
-1. **`reference/local-agenda-systems.md`** describes `/Matters/{id}/Histories` as returning "the
-   vote history on one item, including who voted how." Qualify it: the field exists, is not
-   populated on every client, and returns an empty array rather than an error when it is not.
-   Add the check — pull one known-contested matter and confirm the field is populated before
-   relying on it.
-2. **Same file, same table.** Note that a response of exactly 1,000 records is a truncation
-   signal, not a result, and that no field in the response indicates it.
-3. **`district-issue-scan` step 2** could say that one municipality may have several Legistar
-   clients, and that utility and sewer districts sometimes have their own — which is where the
-   skill's own "follow the money" tip points.
-4. **`district-media-map` step 7 and `district-issue-scan` step 7** hardcode November 3, 2026.
-   Replace with an instruction to resolve the election date for the specific office first.
-   Wisconsin and Illinois both hold their local elections in April, and between them that covers
-   both golden districts.
-5. **`district-media-map`** might add a step ordering: build the deadline inventory — voter
-   guides, questionnaires, forum conveners, election cutoffs — **before** profiling outlets.
-   Outlet profiles keep; deadlines expire, and one had already expired here.
-6. **Both skills** would benefit from an explicit instruction that a null or empty field is not
+1. **`reference/local-agenda-systems.md`** now warns that vote-history fields may be empty and
+   requires checking minutes for known-contested matters.
+2. **The same reference** now treats exactly 1,000 records as a truncation signal.
+3. **`district-issue-scan`** now follows the shared agenda-system procedure, including multiple
+   clients within one jurisdiction.
+4. **Both research skills** now resolve the election date for the specific office instead of
+   assuming November.
+5. **`district-media-map`** now builds the deadline inventory before profiling outlets.
+6. **Both skills** now state that a null or empty field is not
    evidence of absence. That is the single behavior that separated a correct output from a
    plausible false one at three different points in this scan.

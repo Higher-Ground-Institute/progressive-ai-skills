@@ -3,9 +3,10 @@ outlet: ""
 reporter: ""
 reporter_email: ""
 beat: ""
-pitch_type: ""               # story tip | op-ed submission | letter | interview offer | data share
-source_artifact: ""          # path to the answer or brief behind this
-word_limit: ""               # if submitting copy rather than pitching
+pitch_type: ""               # story tip | op-ed cover | letter cover | interview offer | document share
+source_artifact: ""          # published answer/brief, or approved placement for op-ed/LTE
+submission_copy: ""          # placement path for op-ed/LTE; blank for other pitch types
+word_limit: ""               # email limit; body limit lives in the placement
 deadline: ""
 election_blackout_rule: ""   # many outlets restrict candidate copy near an election
 date_created: ""
@@ -46,11 +47,13 @@ Structure that works:
 4. A concrete, low-friction ask
 5. Name, role, phone, email
 
-Keep it under 200 words. Reporters read the first two sentences.
+Keep story tips under 200 words and op-ed/LTE cover emails, interview offers, and document
+shares under 150. The submission body lives in the linked placement and follows the outlet's
+limit.
 
 ## What is attached or linked
 
-- Link to the answer page or brief on the campaign site
+- Link to the published answer page or brief, or the approved op-ed/LTE placement
 - Link to the primary records, not just the campaign's summary of them
 
 ## The honest self-check

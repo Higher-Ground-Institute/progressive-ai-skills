@@ -30,10 +30,8 @@ figures, specific votes, each one sourced inline:
 
 Not "rates have gone up a lot." The number, the date, the record.
 
-Evidence density is the highest-value editorial choice on the page — controlled measurement
-found comparison content at +55% and how-to content at +41% mean answer influence, while Q&A
-formatting measured slightly negative ([arXiv](https://arxiv.org/html/2604.25707v1)). Write
-prose with numbers in it.
+Use the strongest verified evidence available. Preserve qualifications and link the primary
+record where possible.
 
 ## What I would do
 
@@ -61,4 +59,5 @@ is also the honest thing to do.
 
 - [ ] Candidate has read this page in full
 - [ ] Candidate approves publication
+- [ ] A human supplied `published_url` before status became `published`
 - Approved by: _____________ Date: __________

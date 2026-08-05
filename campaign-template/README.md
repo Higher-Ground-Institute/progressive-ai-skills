@@ -20,17 +20,20 @@ Claude Code, Cowork, and a volunteer with a laptop and no AI tool at all.
 | `positioning.md` | `positioning-builder` | **every writing skill** |
 | `answers/*.md` | `answer-page` | `placement-writer`, `local-media-pitch` |
 | `briefs/*.md` | `issue-brief` | `placement-writer`, `local-media-pitch` |
-| `placements/*.md` | `placement-writer` | `canonical-presence` |
+| `placements/*.md` | `placement-writer` | `local-media-pitch` for op-ed/LTE cover emails |
 | `pitches/*.md` | `local-media-pitch` | — |
 | `presence.md` | `canonical-presence` | — |
+| `identity-markup.json` | `canonical-presence` | Human site implementer |
 
 ## The order to run them in
 
 ```
 candidate-profiler ──┐
 district-issue-scan ─┼─→ positioning-builder ─→ answer-page ─┬─→ placement-writer
-district-media-map ──┘         (the contract)   issue-brief ─┘   local-media-pitch
-                                                                 canonical-presence
+district-media-map ──┘         (the contract)   issue-brief ─┘          │
+                                                     │                 └─→ local-media-pitch
+                                                     └────────────────────→ local-media-pitch
+positioning-builder ───────────────────────────────────────────────→ canonical-presence
 ```
 
 The three research skills are independent of one another — run them in parallel, or on
@@ -49,9 +52,10 @@ agree with is worse than no content at all.
 
 ## The one field that stops the worst failure
 
-`no-position-yet` in `positioning.md`. If a topic is on that list, every writing skill in
-this repo refuses to write a position on it and asks you a specific question instead. Keep
-that list honest. An empty `no-position-yet` list on a first-time campaign is not a sign of a
+`## No position yet` in `positioning.md`. If a topic is on that list, every writing skill
+withholds a position and asks a specific question instead; factual briefs and multi-question
+forms may continue without inventing the missing stance. Keep that list honest. An empty
+list on a first-time campaign is not a sign of a
 well-prepared candidate; it is a sign that somebody guessed.
 
 See [`reference/shared-rules.md`](../reference/shared-rules.md) for the full rule set.

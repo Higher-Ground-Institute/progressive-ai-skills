@@ -2,7 +2,9 @@
 
 **Category:** Content & Comms
 
-Turns one published campaign answer page or issue brief into one pitch, to one named reporter, at one outlet — with that outlet's word limit, exclusivity terms, election-period restrictions, and deadline verified before a word is drafted. Writes *to* journalists, never as them.
+Creates one attributed outreach email to one verified outlet route. Story tips, interview offers,
+and document shares use a published campaign artifact; direct op-ed and LTE submissions use a
+candidate-approved placement whose body was written by `placement-writer`.
 
 ## Who it's for
 
@@ -10,25 +12,81 @@ A first-time, down-ballot candidate or the one volunteer handling communications
 
 ## What it does
 
-Reads `campaign/district-media-map.md` and one artifact from `campaign/answers/` or `campaign/briefs/`, then produces `campaign/pitches/<outlet>-<topic>.md`: the recipient and the reason, a subject line, an email under 200 words, the linked primary records, a recorded self-check, and an approval block.
+Reads approved positioning, `campaign/district-media-map.md`, and the source required for the
+pitch type. It produces `campaign/pitches/<outlet>-<topic>.md`: recipient and rationale, subject
+line, cover email, links or attachments, self-check, follow-up plan, and approval block.
 
 Five pitch types, same honesty, different shape: story tip, op-ed submission, letter to the editor, interview offer, and data/document share.
 
-The mechanics it checks before drafting: word limit, exclusivity, submission address, deadline, and — the one campaigns get caught by — the outlet's election-period restriction on candidate copy. Many outlets stop running candidate letters and op-eds several weeks before an election. The skill finds the exact rule and the exact cutoff date, or records who at the newsroom confirmed there isn't one.
+The mechanics it checks before drafting are whether the outlet accepts the exact pitch type,
+word limit where applicable, exclusivity, route, deadline, and election-period restriction. Any
+cutoff is calculated from the verified `election_date` in positioning, never a hardcoded date.
 
 ## Prerequisites
 
 - **`campaign/district-media-map.md`** — outlets ranked by citation value, with beat reporters and submission rules
-- **One published answer page or issue brief**, live on the campaign site. No artifact, no pitch
+- **Candidate-approved `campaign/positioning.md`**
+- **For story tips, interview offers, and document shares:** one published answer page or issue
+  brief at a live URL
+- **For direct op-ed/LTE submissions:** one candidate-approved placement from
+  `placement-writer`
 - A named human at the campaign willing to sign it and take the phone call
 
-No AI tool is required. The `## Doing this without an agent` section is the full manual procedure.
+Source pages follow `draft` → `candidate-approved` → `published`. Pitch files follow
+`draft` → `candidate-approved` → `sent`.
 
 ## How to use it
 
-Run it once per pitch. One artifact, one outlet, one reporter, one email. It is not a distribution tool and it will not produce a list.
+Run it once per pitch. One source, one outlet, one route, one email. It is not a distribution
+tool and it will not produce a list.
 
 The skill drafts and instructs; a human sends. It never emails anyone, and reporter contact lists never go into a chat interface — the campaign works from contact information the outlet publishes on its own site.
+
+## Routing table
+
+| Pitch type | Source and approval | Outlet must accept | Deliverable |
+|---|---|---|---|
+| Story tip | Published answer/brief and live URL; facts only if position unresolved | Tips to the named beat reporter or listed intake | Under-200-word attributed email linking the artifact and record |
+| Interview offer | Published answer/brief and live URL; approved topic | Interview pitches on that beat | Under-150-word availability email |
+| Document share | Published answer/brief, live URL, and described records; facts only if position unresolved | Document tips on that beat | Under-150-word email with records |
+| Op-ed submission | Candidate-approved op-ed placement; no missing-position marker | Candidate op-eds at this point in the election period | Brief cover email plus separate placement body |
+| LTE submission | Candidate-approved LTE placement; no missing-position marker | Candidate letters at this point in the election period | Brief cover email plus separate placement body |
+
+An unknown position stops op-eds, LTEs, and interview offers that would state a stance.
+Factual story tips and document shares may continue without a position. Linked campaign
+content requires `status: published` and a working live URL.
+
+## Full manual procedure
+
+1. Confirm positioning is candidate-approved and `election_date` is verified. Apply the routing
+   table and reject an ineligible source before drafting.
+2. Open the media map. Prefer the highest-citation-value outlet that actually covers the topic
+   and district. Treat a complete outlet row checked within the last 30 days as fresh. Recheck
+   only missing, unverified, or older fields, and record each new source and check date.
+3. Confirm the outlet currently accepts this exact pitch type. For op-eds/LTEs verify candidate
+   bylines, limit, exclusivity, editing policy, route, deadline, and election restriction. For
+   tips/offers/shares verify beat fit and intake route. Calculate a blackout cutoff from the
+   verified election date and the outlet's rule.
+4. For reporter-routed pitches, read recent bylines and record one relevant story URL and date.
+   If no recent work matches, choose another reporter or outlet.
+5. For a story tip, ask whether the development would still be news if another campaign sent
+   it. News requires a development, record, dated decision, or concrete consequence. If the
+   answer is merely "we want coverage," stop.
+6. Copy the pitch template. Write a subject under 60 characters and an attributed cover email:
+   what is happening now, specific evidence and primary-record link, what the campaign can
+   provide, one low-friction ask, then the named sender's role, phone, and email.
+7. Keep story tips ordinarily under 200 words and interview/document emails under 150. Those
+   defaults do not apply to the separately authored op-ed/LTE body, which follows the outlet's
+   verified limit. Never paste the body into the cover-email field unless the outlet requires
+   one combined field.
+8. Compare every claim, number, date, and link with the eligible source. Open each link and
+   confirm it supports the statement.
+9. Show the candidate the exact email, separate body if applicable, recipient, route, and ask.
+   Recheck contact data only if stale or incomplete. After explicit approval, set
+   `status: candidate-approved`.
+10. A named human sends from an attributed campaign account. After confirmation, set
+    `status: sent`, `sent_date`, and `sent_by`. One week later, send at most one short
+    follow-up, then stop.
 
 ## Tips and edge cases
 
@@ -41,9 +99,10 @@ The skill drafts and instructs; a human sends. It never emails anyone, and repor
 
 ## Example
 
-An invented candidate for the Jackson County Board publishes an issue brief showing that a stormwater billing error double-charged 340 households across two years, sourced to county billing records and the September utility committee minutes.
-
-The media map ranks the Jackson County Ledger — a nonprofit newsroom, high citation value, no paywall — above the regional daily that runs wire copy. The skill picks its utilities reporter, notes her March story on the rate increase, checks the submission page (letters 250 words; op-eds exclusive, 650 words; no candidate op-eds after October 20), and drafts a 160-word story tip that links the billing records directly and offers the underlying spreadsheet.
+An invented county candidate publishes an issue brief about a stormwater billing error, sourced
+to county records and committee minutes. A fresh media-map row points to the local utilities
+reporter. The skill verifies that tips are accepted, drafts a short attributed email linking the
+live brief and records, and offers the underlying spreadsheet.
 
 The ask: fifteen minutes by phone this week. The campaign manager sends it, signed, with a cell number. One follow-up goes out seven days later, and then the campaign stops.
 
@@ -54,4 +113,7 @@ Stated precisely, because a repo about not fabricating claims should not fabrica
 - **Three eval cases** in [`evals/evals.json`](evals/evals.json), runnable by `npx agent-skills-eval`: a normal pitch, which has to pick the reporter who covered the beat and name her story; a request for an anonymous tip "so it doesn't look like it came from the campaign," which has to be refused with the attributed version offered instead; and an op-ed pitched to a public radio station on a topic the campaign has no position on, where both the venue and the missing position have to be caught before drafting. All three use an invented candidate, invented outlets, and `example.org` addresses.
 - **Structural validation** on every pull request via `scripts/validate_skills.py`, which enforces the agentskills.io spec plus this repo's conventions.
 
-**Not yet done:** the eval suite has not been run against a live model, so no assertion here has an observed pass rate, and no pitch produced by this skill has been sent to a real reporter. The manual procedure in `## Doing this without an agent` is written to be followable without any AI tool, but nobody has walked it end to end. If you run it, please open an issue and say what broke.
+**Not yet done:** the eval suite has not been run against a live model, so no assertion here has
+an observed pass rate, and no pitch produced by this skill has been sent to a real reporter. The
+manual procedure has not been walked end to end. If you run it, please open an issue and say
+what broke.

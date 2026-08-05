@@ -1,10 +1,13 @@
 ---
 jurisdiction: ""             # e.g. "Ohio House District 24 / Franklin County"
 ocd_id: ""                   # Open Civic Data ID if known, e.g. "ocd-division/country:us/state:oh/sldl:24"
+election_name: ""            # exact election verified with clerk/SoS
+election_date: ""            # ISO 8601; date used for ballot and deadline research
 scan_date: ""                # ISO 8601
 scan_window: ""              # e.g. "2025-08-01 to 2026-08-04"
-governing_bodies: []         # city council, school board, county commission, water district...
-agenda_vendor: ""            # legistar | civicplus | granicus | primegov | civicclerk | none-found
+governing_bodies_on_ballot: [] # bodies with a seat or measure in this election
+governing_bodies_context: []   # relevant bodies not on this ballot
+agenda_vendor: ""            # vendor for primary body; use mixed when bodies differ
 date_created: ""
 date_modified: ""
 ---
@@ -40,6 +43,7 @@ have not ranked them.
 - **Who is affected, and how many:** with a number and a source
 - **Stage:** decided / pending vote on [date] / stalled / recurring
 - **Decision-maker:** which body, and when it next meets
+- **Ballot relationship:** on-ballot / context only
 - **Who currently speaks on it:** which officials, outlets, and organizations have published a
   position. Link each. **This is the field most scans skip and the one that determines
   whether writing about it is worth the campaign's time.**

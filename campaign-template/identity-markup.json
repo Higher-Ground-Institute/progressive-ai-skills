@@ -1,0 +1,28 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "ProfilePage",
+      "@id": "",
+      "mainEntity": {
+        "@id": ""
+      }
+    },
+    {
+      "@type": "Person",
+      "@id": "",
+      "name": "",
+      "url": "",
+      "sameAs": [],
+      "affiliation": {
+        "@id": ""
+      }
+    },
+    {
+      "@type": "Organization",
+      "@id": "",
+      "name": "",
+      "url": ""
+    }
+  ]
+}

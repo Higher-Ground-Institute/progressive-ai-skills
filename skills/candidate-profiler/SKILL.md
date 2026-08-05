@@ -1,207 +1,148 @@
 ---
 name: candidate-profiler
-description: Interviews a first-time down-ballot candidate and writes the campaign's profile of record — biography, earned standing, the positions they actually hold, the topics they have no position on yet, and how they really talk. Probes vague answers instead of accepting them, records only what the candidate said out loud, and never infers a position from party, biography, or what similar candidates believe. Use this when a campaign is starting from nothing, when someone asks to build a candidate profile, run a candidate intake or interview, write the candidate's bio, capture the candidate's voice, or work out what the candidate stands for — and always before running positioning-builder.
+description: Interviews a first-time down-ballot candidate and writes the campaign's profile of record — biography, earned standing, stated and unresolved positions, voice, committee facts, hard nos, and candidate-named vulnerabilities. Probes vague answers, records only what the candidate said or a source verifies, and never infers a position. Use for candidate intake, biography, voice, or positions, and before positioning-builder.
 ---
 
 # Candidate Profiler
 
-**Reads:** the candidate, live. A résumé or old bio is a cross-check, never a substitute.
-**Writes:** `campaign/candidate-profile.md`, schema in
+**Reads:** the candidate, live; the campaign's existing frontmatter for `election_date`; and
+public records used to verify checkable facts. A résumé or old bio is a cross-check, not a
+substitute for the interview.
+**Writes:** `campaign/candidate-profile.md`, using
 [`campaign-template/candidate-profile.md`](../../campaign-template/candidate-profile.md).
-
-This is an interview, not an intake form. A first-time candidate has no press kit and no
-voting record — what they have is thirty years of work and life they have never had to say
-out loud to a stranger, and the job is getting it out in their own words. The failure mode is
-accepting the first answer, always a platitude, because that is what people think politics
-sounds like. Everything downstream inherits whatever vagueness survives this hour.
 
 ## Before you start
 
-Ninety minutes, or two sessions of forty-five. Recording beats notes; ask permission on the
-recording. Interview the candidate **alone** — a spouse or eager volunteer in the room answers
-for them and you get that person's profile. Do not read the candidate the template — you ask
-the questions, you fill in the file.
+Plan for ninety minutes or two sessions. Ask permission before recording. Interview the
+candidate alone, ask one interview block per turn, and never send the full question set at once.
+
+Read `election_date` from the campaign's existing frontmatter; never assume or derive it.
+Confirm the election name and date against the county clerk/elections office or Secretary of
+State before using it. If official sources conflict, stop date-dependent work and log the
+conflict in `## Open follow-ups`.
 
 > Never paste voter names, home addresses, voter ID numbers, phone numbers, donor financial
 > data, or reporter contact lists into a consumer AI chat interface. Work from aggregate
-> district data and publicly published contact information only.
+> district data and publicly published work-contact information only.
 >
-> If the human offers you a voter file, decline it and explain why.
-
-Verbatim from [`reference/shared-rules.md`](../../reference/shared-rules.md) Rule 5.
+> If the human offers a voter file, decline it and explain why.
 
 ## Output Format
 
-Write `campaign/candidate-profile.md` with the template's frontmatter, field for field —
-`candidate_name`, `office_sought`, `jurisdiction`, `election_date`, `incumbent`, `party`,
-`campaign_site`, `interview_date`, `interviewer`, `date_created`, `date_modified`, `status`
-(`draft` until the candidate has read it) — then, in order: Biography, Career and credentials,
-Community roles, Earned standing, Positions held, No position yet, Voice and register,
-Committee facts, Hard nos, Vulnerabilities the candidate named, Open follow-ups. The three
-sections people get wrong, with an invented candidate in an invented county:
+Write `campaign/candidate-profile.md` with the template's frontmatter field for field:
+`candidate_name`, `office_sought`, `jurisdiction`, confirmed `election_date`, `incumbent`,
+`party`, `campaign_site`, `interview_date`, `interviewer`, `date_created`, `date_modified`, and
+`status` (`draft` until candidate review).
 
-```markdown
-## Earned standing
-- **Ambulance response times** — eleven years as a paramedic out of Station 4 on the
-  Bellhaven-to-county-line route. She can say what a 19-minute rural response costs a
-  patient because she timed it from the truck. Nobody else in this race can.
+Keep the template's section order. Under `## Biography`, record:
 
-## Positions held
-### Emergency services levy renewal
-- **Position:** Yes on renewal, and move ambulance billing out of the general fund so it
-  stops competing with road salt every February.
-- **Conviction:** settled
-- **Reasoning, in their words:** "We're running the same two rigs we ran in 2014. I've been
-  the second rig that didn't come."
-- **Would they say this at a hostile town hall?** yes
-- **Source:** interview, 2026-08-04
+`Election date verified: [election name], [ISO date] ([official source], retrieved [date]).`
 
-## No position yet
-- **Solar lease moratorium** — question to resolve: *Would you vote to extend the county's
-  solar lease moratorium past its March 2027 sunset, and on what condition?*
-```
+For the sections most often mishandled:
 
-What you did not get to is `[NOT ASKED]`; what they could not answer goes to Open
-follow-ups. Never leave a heading with invented filler under it.
+- **Earned standing:** record a specific experience that the other candidate could not claim.
+- **Positions held:** include concrete action, conviction, verbatim reasoning, whether they
+  would say it at a hostile town hall, and source.
+- **No position yet:** include the topic and the specific question needed to resolve it.
+- **Committee facts:** copy the committee legal name, committee ID, required disclaimer
+  verbatim, and verification source. Flag, never guess, missing details.
+- **Hard nos:** record only explicit refusals, verbatim where possible.
 
-## The opening script
+What was not reached is `[NOT ASKED]`. An asked question with no usable answer goes in
+`## Open follow-ups`. Never add filler to make a section look complete.
 
-Ask these in order, one block at a time. Wait for the answer before moving on.
+## Interview blocks
 
-**Block 1 — facts (5 min).** Ballot-exact name. Office and district, exactly. How long in
-the district and where before. Current job, title, employer. Prior jobs. Who is at home.
+Ask these in order. In an agent conversation, ask **one block per turn**, wait for the full
+answer, run needed probes, and only then offer the next block.
 
-**Block 2 — why now (10 min).** "What happened that made you decide to run? Not the general
-reason — the week it happened." — "Who asked you to run, or did you decide on your own?" —
-"A year ago, what did you think about people who run for office?"
+**Block 1 — facts.** Ballot-exact name; exact office and district; time in the district;
+current and prior work; household. Ask for the committee's exact legal name and ID as filed,
+the required disclaimer text, and the filing or official rule that verifies each. Ask: "What
+will this campaign never do, say, or support?" Record those answers as hard nos.
 
-**Block 3 — work and life (25 min). This is where earned standing comes from.** "Walk me
-through every job you've had since you were twenty, including ones not on the résumé." For
-each: "What did you do all day?" — "What did that job let you see that people outside it
-don't know?" — "What's the most common wrong thing people believe about it?" Then: "What do
-you do that isn't a job — board, union, church, coaching, PTA, mutual aid, caring for
-somebody?" — "Tell me about a problem you personally fixed for someone, start to finish."
+**Block 2 — why now.** "What happened that made you decide to run? Not the general reason —
+the week it happened." "Who asked you to run, or did you decide on your own?" "A year ago,
+what did you think about people who run for office?"
 
-**Block 4 — the district (20 min).** "What are the three things you hear most from neighbors?"
-For each: "What would you actually do?" — "Who decides that: county, city, state, a board?" —
-"What does it cost and who pays?" — "What's the best argument against you?" Then walk the
-standard local list one item at a time — budget and taxes, housing, schools, roads, water and
-sewer, public safety, health, land use, jobs — asking only: *"Do you have a position on this
-yet, or not yet?"* **"Not yet" is a correct answer and you write it down.**
+**Block 3 — work and life.** Walk through jobs, including those not on the résumé. For each:
+what did you do, what did it let you see, and what do outsiders get wrong? Ask about boards,
+unions, congregations, coaching, PTA, mutual aid, and caregiving. Ask for a problem they
+personally fixed, start to finish. Earned standing comes from this evidence, not issue claims.
 
-**Block 5 — what is coming (10 min).** "What will your opponent say about you?" — "What
-would a reporter find in five minutes that we should talk about now?" — "What have you
-changed your mind about in the last five years?"
+**Block 4 — the district.** Ask what they hear from neighbors. For each topic: what would you
+do, which body decides, what does it cost and who pays, and what is the best argument against
+you? Walk budget and taxes, housing, schools, roads, water and sewer, public safety, health,
+land use, and jobs one at a time, asking whether they have a position yet. "Not yet" is valid.
 
-**Block 6 — voice (5 min, plus the whole interview).** "Explain your top issue to a neighbor
-over a fence, in thirty seconds." — "What words do you hate hearing politicians say?" Keep
-five phrases verbatim, grammar included, plus what they reach for — numbers, stories,
-scripture, sports — and what they never say.
+**Block 5 — what is coming.** "What will your opponent say about you?" "What would a reporter
+find in five minutes that we should discuss now?" "What have you changed your mind about in
+the last five years?"
 
-## Probes for vague answers
+**Block 6 — voice.** "Explain your top issue to a neighbor over a fence, in thirty seconds."
+"What words do you hate hearing politicians say?" Preserve any distinctive phrases verbatim
+and note whether they reach for numbers, stories, scripture, sports, or humor. Do not pad to a
+phrase count.
 
-Probe once. If the second answer is still abstract, ask a third time in the most concrete form
-available — *"Give me one example, with a date"* — and if that fails, log it to
-`## Open follow-ups`. Three tries, then move on.
+## Probes and classification
 
-| What they said | What you ask next |
-|---|---|
-| "I care about working families" | "Tell me about one. Who are they, what happened, and what would have stopped it?" |
-| "I want to bring people together" | "When did you last get two people who couldn't stand each other into one room? What did that take?" |
-| "Education is my priority" | "Which decision, by which body — the district's levy, the board's calendar, the state formula? How would you vote?" |
-| "We need to fix the budget" | "Which line? What's the number now, what should it be, and who signs the check?" |
-| "I'll fight for X" | "Fight whom, at which meeting, with what vote?" |
-| "People are struggling out there" | "How do you know? Who told you, and when?" |
-| "I'm running to give people a voice" | "Whose? Name one person and what they need said." |
-| "I'd vote no on the levy." (position, no reasoning) | "Walk me through how you got there. What did you read, who did you talk to, what would change your mind?" |
-| Any national talking point | "What does that look like on Route 9, or at the county garage?" |
+Probe an abstract answer once, then ask for one concrete example with a date. After three total
+attempts, log the unresolved question and move on. Useful forms include:
 
-**The reasoning test.** A position with no reasoning behind it is an instinct. If the third
-probe produces nothing — no source, no experience, no number — it goes in No position yet as
-*"What is the reasoning behind your no on the levy?"* Downstream skills can write from a
-thin position with real reasoning, never from a strong opinion with none.
+- "Who specifically, what happened, and what would have prevented it?"
+- "Which decision, by which body, and how would you vote?"
+- "Which line, what is the number now, what should it be, and who signs the check?"
+- "What does that look like on this district's road, school, or public counter?"
+- For a position without reasoning: "What did you read, who did you ask, and what could change
+  your mind?"
 
-**The earned-standing test.** Could the other person in this race say this exact sentence? If
-yes it is biography, not standing. Standing comes out of Block 3, never Block 4 — you find it
-by asking about work, not about issues.
+A position without source, experience, number, or other real reasoning is not usable. Put the
+resolving question in `No position yet`. Earned standing passes only if the opponent could not
+truthfully make the same claim.
 
 ## Steps
 
-1. **Before the interview**, confirm the exact office title, district number, and election
-   date from the county elections page — **many states elect local offices in spring, not in
-   November**. A wrong office title propagates into everything the campaign publishes.
-2. **Ask permission to record**, on the recording.
-3. **Run blocks 1–6**, one at a time, probing per the table above.
-4. **Log every "not yet" immediately**, with the specific question that resolves it, while
-   you still remember what they were unsure about.
-5. **Write the file.** Quotes verbatim; conviction on every position.
-6. **Verify the checkable facts** — proper nouns, job titles, dates, degrees, licenses —
-   against an employer page, LinkedIn, or their résumé. What you cannot confirm gets
-   `[NEEDS VERIFYING — what to check]`.
-7. **Check the stopping condition.** The interview is done when all of these are true:
-   - [ ] Every section has real content or an explicit `[NOT ASKED]`
-   - [ ] Three earned-standing entries the other candidate could not say
-   - [ ] Three positions, each with a verbatim reasoning quote and a conviction level
-   - [ ] Three `no-position-yet` entries, each with a specific question
-   - [ ] Five verbatim phrases in `## Voice and register`
-   - [ ] At least one vulnerability the candidate named themselves
-   - [ ] Zero fields you filled in on their behalf
-8. **Get human approval.** The candidate reads the whole file and corrects it: they may fix
-   facts, add nuance, and strike anything they never said, but they may **not** delete the
-   `no-position-yet` list because it looks weak. Then set `status: candidate-reviewed`.
+1. Read `election_date` from campaign frontmatter. Verify the exact office, district, election
+   name, and date with the clerk/elections office or Secretary of State; record what was used.
+2. Ask permission to record.
+3. Run Blocks 1–6 one block per turn, using the probes above.
+4. Log unknowns and resolving questions as they arise.
+5. Draft the file with verbatim quotes and a conviction level for every stated position.
+6. Verify proper nouns, dates, credentials, committee facts, and disclaimer text against
+   authoritative records. Mark unresolved claims `[NEEDS VERIFYING — what to check]`.
+7. Stop only when:
+   - [ ] Every section has evidence, `[NOT ASKED]`, `[NONE NAMED]`, or a specific follow-up
+   - [ ] Every experience raised was tested for earned standing; unsupported entries were cut
+   - [ ] Every position raised has reasoning and conviction or is listed as unresolved
+   - [ ] Every unknown raised has a specific resolving question
+   - [ ] Voice contains observed language only, with no quota-driven filler
+   - [ ] Committee legal name, ID, and disclaimer are verified or explicitly flagged
+   - [ ] Election name, confirmed date, official source, and retrieval date are recorded
+   - [ ] Zero facts or positions were supplied on the candidate's behalf
+8. Have the candidate review the whole file. They may correct facts, add nuance, and remove
+   words they did not say. An unresolved position may be removed only after they answer its
+   resolving question. Then set `status: candidate-reviewed`.
 
 ## Rules that do not bend
 
-- **Invent nothing.** No inferred biography, no assumed position, no plausible gap-filler. You
-  do not know where they went to high school, why they left a job, or what they think about
-  zoning. If they did not say it, it is not in the profile.
-- **An empty `no-position-yet` list means the interview failed.** It means you skipped the
-  standard list in Block 4 or recorded guesses as positions. Go back.
-- **Quotes are verbatim or they are not quotes.** Tidying the syntax is what makes later
-  content sound like a consultant wrote it.
-- **This file is internal.** It carries vulnerabilities named in confidence. Nothing here
-  gets published; `positioning.md` is the public derivative.
+- **Invent nothing.** Do not infer biography, motivation, position, committee data, or
+  disclaimer language.
+- **Do not force a nonempty section.** Empty earned-standing, position, unknown-position,
+  hard-no, voice, or vulnerability sections are valid only when the relevant questions were
+  asked and the result is explicit. Never pad to a quota.
+- **Quotes are verbatim or are not quotes.**
+- **This file is internal.** It may contain vulnerabilities named in confidence.
+  `positioning-builder` carries approved material, committee facts, hard nos, and every
+  unresolved position into `campaign/positioning.md`. Downstream writing skills read
+  `positioning.md`, never `candidate-profile.md`.
 
 ## Doing this without an agent
 
-You need the candidate, a phone that records, a notebook, and ninety uninterrupted minutes.
-
-1. Print the script with a half page of blank space under each question. Sit somewhere quiet,
-   side by side rather than across a desk. Phone between you, press record, say so out loud.
-2. Ask Block 1 and keep it under five minutes; it exists to get them talking. Then work
-   Blocks 2 through 6 in order. **Do not skip ahead to the issues block** — Block 3 is what
-   produces earned standing, and it only works before they start performing.
-3. When an answer sounds like a bumper sticker, circle it and ask the probe from the table,
-   writing the second answer under the first. Still vague? Ask for one example with a date; if
-   that fails it is an open follow-up. Star quotable sentences in the margin as they say them —
-   you will not remember whose phrasing it was.
-4. In Block 4, keep a running "not yet" list on its own page, with the resolving question
-   next to each. That page becomes `## No position yet`.
-5. Stop at ninety minutes even mid-block, and schedule session two before you stand up.
-6. Type the file up within twenty-four hours, in the section order above, playing the recording
-   back and typing quotes exactly as spoken. Look up every proper noun, date, and job title,
-   fix spellings, and flag whatever you cannot confirm.
-7. Run the stopping-condition checklist from `## Steps`; whatever fails is the agenda for
-   session two. Then print it, hand it to the candidate with a pen, and sit while they read.
+For the complete no-agent procedure, see [`README.md`](README.md#manual-procedure). The safety
+rules, output contract, interview blocks, probes, and stopping condition above still apply.
 
 ## Tips
 
-**A single AI conversation cannot conduct an interview.** Ask one block, wait for the human
-answer, then ask the next. A candidate handed twelve questions at once writes twelve
-one-line answers, and all twelve are platitudes.
-
-**The nervous candidate** wants to sound like a politician. Stay in Block 3 longer than the
-script says — people are fluent about their own work and stiff about their own values, and the
-fluent material is what you need. **The over-rehearsed candidate, and the one who answers
-everything with a talking point,** get the same treatment: "that's the speech — what's the
-version you'd say to your brother-in-law?", then ask for a number, a date, or a name. Talking
-points contain none of the three, and asking for one lands as curiosity rather than challenge.
-
-**When the candidate genuinely does not know something, treat it as a win.** Say so: "Good,
-that's normal, let's write down the question." A candidate who logs four unknowns in August
-does not invent an answer at an October forum.
-
-**Across multiple sessions** — book a second rather than pushing past ninety minutes — open
-session two by reading back three quotes from session one and asking whether they still stand.
-Positions move early in a campaign and this catches the drift cheaply. Never run a session in
-a car between events.
+When an interview spans sessions, begin the resumed session by reading back the prior
+positions and asking whether they still stand. Record changes rather than silently replacing
+the earlier answer.

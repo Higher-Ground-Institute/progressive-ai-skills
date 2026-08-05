@@ -6,7 +6,7 @@ candidate_name: ""
 author: ""
 date_created: ""
 date_modified: ""
-status: draft
+status: draft                # draft | candidate-approved | published
 published_url: ""
 sources_count: 0
 primary_records_count: 0     # how many are actual records, not reporting about them
@@ -14,10 +14,8 @@ primary_records_count: 0     # how many are actual records, not reporting about 
 
 # [Issue name]: what is actually happening in [place]
 
-The usefulness test for this document: **would someone who will never vote for this candidate
-still bookmark it?** If not, it is a position paper wearing a reference document's clothes.
-
-Write the thing that should already exist and does not.
+<!-- Usefulness test: [non-supporter — concrete use]; [non-supporter — concrete use];
+[non-supporter — concrete use]. Remove this comment during the human publishing pass. -->
 
 ## The short version
 
@@ -39,10 +37,8 @@ minutes.
 The dollar figures, rates, counts, and comparisons, each sourced. A table beats a paragraph
 here.
 
-Comparison is the single highest-value content type measured
-([arXiv](https://arxiv.org/html/2604.25707v1), +55% mean influence). Compare this
-jurisdiction to its neighbors, to its own past, to the state average — whichever comparison
-is honest and available.
+Compare this jurisdiction with its neighbors, its own past, or the state average—whichever
+comparison is honest and available.
 
 ## Who decides what happens next
 
@@ -75,6 +71,7 @@ names the open question. It does not guess.
 ## What is still unknown
 
 Open questions, unreleased records, pending studies, FOIA requests outstanding.
+For live decisions, add `[FOLLOW UP YYYY-MM-DD — verify <decision or record> and update this brief]`.
 
 ## Sources
 

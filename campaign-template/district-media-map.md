@@ -1,5 +1,7 @@
 ---
 jurisdiction: ""
+election_name: ""
+election_date: ""            # verified for this exact office
 map_date: ""                 # ISO 8601
 outlets_found: 0
 news_desert_assessment: ""   # healthy | thin | desert
@@ -49,6 +51,7 @@ a short, honest media map is a valid output. See `## News desert` below.
   it, has the campaign been contacted
 - **Paywall:** hard / soft / none. Affects whether coverage is readable and citable.
 - **Source:** where you found the submission rules, with URL and date checked
+- **Mechanics verified:** ISO date; `local-media-pitch` may reuse for 30 days
 
 ## Community platforms
 

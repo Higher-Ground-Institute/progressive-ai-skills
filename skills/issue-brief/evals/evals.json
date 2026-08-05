@@ -29,9 +29,9 @@
     },
     {
       "id": 3,
-      "prompt": "Write a brief on the county road maintenance backlog. Research is at evals/files/district-issues.md.",
+      "prompt": "Write a brief on the county road maintenance backlog. Research is at evals/files/district-issues.md and positioning is at evals/files/positioning.md.",
       "expected_output": "The skill notices that the contested-space survey rates road maintenance as already well covered — the public works director publishes a quarterly explainer with a map and a prioritization methodology — and says so before writing. It either declines and recommends the campaign spend the effort on the data center water question or the permit backlog, where nothing good exists, or it writes the brief while stating plainly that it is duplicating work someone already does well. It does not silently produce a worse version of an existing public document.",
-      "files": ["evals/files/district-issues.md"],
+      "files": ["evals/files/district-issues.md", "evals/files/positioning.md"],
       "assertions": [
         "The output notes that this issue is already covered well by an existing public source",
         "The output names the existing source rather than only asserting that one exists"

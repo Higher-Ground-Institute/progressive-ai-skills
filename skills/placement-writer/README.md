@@ -3,9 +3,9 @@
 **Category:** Content & Comms
 **Effort to set up:** 10 minutes to collect the venue's rules
 
-Takes a position the campaign has already written — an answer page or an issue brief — and
-renders it down to fit one specific venue's limit, tone, and rules. Output goes to
-`campaign/placements/<venue>-<topic>.md`, ready for a human to submit.
+Takes a candidate-approved or published answer page or issue brief and renders it down to fit
+one verified venue. Output goes to `campaign/placements/<venue>-<topic>.md` for candidate review
+and human submission.
 
 ## Who it's for
 
@@ -30,33 +30,89 @@ cost, rules on naming opponents, formatting rules, editability after submission,
 2. **Preserves evidence before framing.** Fixed cut order: throat-clearing, then adjectives, then
    framing and narrative, then secondary evidence. Primary evidence is never cut. Every cut is
    logged with its type.
-3. **Counts the correct unit, measured.** 750 characters is about 110 words, not 750. It
-   distinguishes characters including spaces from characters excluding spaces and records an
-   actual count, never an estimate.
+3. **Counts the correct unit with a real tool.** It distinguishes words, characters including
+   spaces, and characters excluding spaces, and records the command and exact result.
 4. **Enforces venue rules** — no bullets or bold where prohibited, no opponent named where
    prohibited, required disclaimers included and counted.
 5. **Returns submission instructions without submitting.** A human submits, always.
 
 ## Prerequisites
 
-- An approved `campaign/answers/<slug>.md` or `campaign/briefs/<slug>.md`
-- `campaign/positioning.md` for boilerplate, bios, and the required disclaimer
+- Candidate-approved `campaign/positioning.md`
+- A `candidate-approved` or `published` `campaign/answers/<slug>.md` or
+  `campaign/briefs/<slug>.md`
 - The venue's own instructions — or twenty minutes to email them and ask
 
-## The venue table
+The artifact lifecycle is `draft` → `candidate-approved` → `published`.
 
-The `SKILL.md` carries verified mechanics for Ballotpedia Candidate Connection, Vote411/LWV,
-state candidate statements (the paid / free-but-limited / unavailable branch, with California,
-Washington, and Arizona worked out), endorsement questionnaires, op-eds, and letters to the
-editor. Anything not in that table has to be verified before drafting — the skill will not
-invent a limit. It also includes a procedure for deriving a spec for a venue that will not tell
-you its rules: count three published examples and use the shortest.
+## Ownership boundary
+
+This skill writes the submission-ready body of an op-ed or letter to the editor.
+`local-media-pitch` writes the cover email and may attach or paste a candidate-approved
+placement for direct submission. Story tips, interview offers, and document shares remain
+`local-media-pitch` outputs.
 
 ## How to use it
 
-Give it the source artifact and the venue: "render the stormwater answer for Ballotpedia." It
-fills the venue rules table, cuts in order, counts, checks the rules against the final text, and
-stops at an approval step that states plainly what cannot be undone.
+Give it the source artifact and venue: "render the stormwater answer for Ballotpedia." It
+verifies eligibility, fills the venue rules, cuts in order, runs a measured count, checks source
+fidelity, and stops for candidate approval.
+
+For a single-topic request, an unknown position stops the task. For a multi-question form, only
+the affected field is blocked and receives
+`[NO POSITION YET — ask the candidate: <specific question>]`.
+
+## Full manual procedure
+
+1. Confirm positioning is candidate-approved and the source artifact is `candidate-approved` or
+   `published`. Do not render from a draft.
+2. Check the topic against approved positioning and `no-position-yet`. Stop a single-topic task
+   if the position is unknown; on a multi-question form, mark only the affected field with the
+   missing-position marker.
+3. Build the ten-field venue spec: limit and unit, audience, tone, submission method, deadline,
+   cost, opponent-reference rule, formatting, editability, and named human submitter. Start with
+   [`reference/venues.md`](../../reference/venues.md) and
+   [`reference/state-voter-guides.md`](../../reference/state-voter-guides.md), then verify
+   time-sensitive fields on the venue's own page or with a named venue contact. Record the URL,
+   contact, and verification date. A blank or unverified field stops drafting.
+4. Copy the position sentence, primary evidence, qualifications, exact numbers, exact dates,
+   and required disclaimer into a scratch document. This is the full source boundary.
+5. If the source is under the venue maximum, do not pad it. If it is over, cut in this order:
+   throat-clearing and transitions; adjectives and intensifiers; framing and narrative;
+   secondary evidence. Never cut primary evidence. Log each cut by type.
+6. Put only submission text between the template's submission markers. Extract that exact text
+   to a plain-text buffer and run the counter matching the venue:
+
+   ```sh
+   python3 -c 'import sys; print(len(sys.stdin.read().split()))'              # words
+   python3 -c 'import sys; print(len(sys.stdin.read()))'                      # characters with spaces
+   python3 -c 'import sys; print(len(sys.stdin.read().replace(" ", "")))'       # characters without spaces
+   ```
+
+   Pipe or paste only the submission buffer into one command. Remove an extraction-added
+   trailing newline if it will not be submitted. Record the command, unit, and exact result.
+7. Compare the final copy to the source side by side. Every number and date must be identical.
+   Confirm attribution, uncertainty, scope, and every qualification survived. If the maximum
+   cannot hold the position plus primary evidence and qualification, mark the placement
+   nonviable instead of distorting it.
+8. Recheck formatting, opponent references, disclaimers, cost, deadline, and submission route.
+9. Show the candidate the exact copy, venue, deadline, and irreversible consequences. After an
+   explicit yes, set `status: candidate-approved` and hand numbered instructions to the named
+   human submitter. The skill never submits. Set `submitted`, `submitted_date`, and
+   `submitted_by` only after the human confirms submission.
+
+## Venue research notes
+
+- Candidate-guide and statement mechanics change by jurisdiction and cycle. Treat the two
+  reference tables as leads, not substitutes for current venue verification.
+- For Vote411, verify the local League's invitation and field limits.
+- For state and county statements, verify eligibility, cost, limit, deadline, formatting, and
+  finality with the administering election office.
+- For questionnaires, ask whether responses are public, shared, or internal.
+- For op-eds and LTEs, verify candidate-bylines policy, limit, exclusivity, election cutoff,
+  bio rules, editing rights, and submission route.
+- If a venue will not state a limit, do not invent one. Ask a named contact and record the
+  answer. Published examples can inform planning but are not a verified rule.
 
 ## Tips and edge cases
 
@@ -65,16 +121,14 @@ stops at an approval step that states plainly what cannot be undone.
 - **Vote411 is invitation-only** through the local League, and character limits vary by League.
   If no invitation arrives, confirm the campaign email with the League.
 - **Print deadlines can precede online ones.** Ask for both.
-- **A closed venue is a calendar entry, not a dead end.** Washington's 2026 statement deadline
-  was May 19; California statements were due with nomination papers.
+- **A closed venue is a calendar entry, not a dead end.** Record the verified close date and a
+  next-cycle reminder.
 
 ## Example
 
-For an invented candidate — Jane Okonkwo, running for a county commission seat — the 900-word
-answer page on the stormwater fee becomes `campaign/placements/ballotpedia-stormwater-fee.md`: a
-731-character submission-ready block, a measured count line, and a cut log showing that four
-transitions, eleven adjectives, and one secondary comparison came out while the fee increase,
-the vote date, and the exemption threshold stayed in.
+For an invented county-commission candidate, a long stormwater answer becomes a short
+Ballotpedia placement. The output records the exact counter result and a cut log while preserving
+the source's fee amount, vote date, qualification, and exemption threshold.
 
 ## What it has been exercised against
 

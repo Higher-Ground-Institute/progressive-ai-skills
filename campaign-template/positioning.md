@@ -124,8 +124,9 @@ pads up.
 **Copied forward from `candidate-profile.md`, unchanged.** `positioning-builder` may add to
 this list. It may never remove an entry by inferring an answer.
 
-Every writing skill reads this list before drafting. If a requested topic is here, the skill
-outputs `[NO POSITION YET — ask the candidate: <question>]` instead of a position.
+Every writing skill reads this list before drafting and withholds a position when a topic is
+here. `answer-page` stops; factual briefs and unaffected fields in multi-question forms may
+continue with `[NO POSITION YET — ask the candidate: <question>]` in the position field.
 
 | Topic | The specific question the candidate needs to answer | Added | Needed by |
 |---|---|---|---|

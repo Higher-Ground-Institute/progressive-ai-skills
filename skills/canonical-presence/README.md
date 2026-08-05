@@ -2,7 +2,9 @@
 
 **Category:** Content & Comms
 
-Finds every place a candidate can put a statement of record — and first makes sure the campaign website can actually be read and quoted by search engines and AI answer engines. Produces a single triaged file with a status, deadline, cost, verified URL, and next action for every venue, plus a next-cycle calendar for the ones that already closed.
+Finds every place a candidate can put a statement of record after checking that the campaign
+site is crawlable and snippet-eligible. Produces `campaign/presence.md` plus concrete identity
+markup at `campaign/identity-markup.json`.
 
 ## Who it's for
 
@@ -19,7 +21,13 @@ Two findings this section exists to prevent:
 
 **Part 2 — venue triage.** Every venue gets classified as **Open now**, **Closed this cycle; calendar it**, or **Always open**, sorted by citation value against availability. For an August 2026 start that puts Ballotpedia Candidate Connection first and the campaign's own Facebook page last, with the reasoning written out. Includes a derivation procedure for finding the state-, county-, and district-specific venues that no national list can cover.
 
-**Part 3 — identity consistency.** One ballot name, one office phrasing, everywhere, plus truthful `sameAs` links and cross-linked `ProfilePage` / `Person` / `Organization` markup. Answer engines confuse down-ballot candidates with namesakes constantly; this is the fix.
+**Part 3 — next-cycle calendar.** Every closed venue gets a verified close date, next-cycle
+estimate, source, owner, and reminder.
+
+**Part 4 — identity consistency.** One ballot name and office phrasing everywhere, plus truthful
+`sameAs` links and cross-linked `ProfilePage` / `Person` / `Organization` markup written to
+`campaign/identity-markup.json`. The skill hands that file to the site owner; it does not edit
+or deploy the live site.
 
 ## Prerequisites
 
@@ -27,7 +35,8 @@ Two findings this section exists to prevent:
 - **A browser.** That is genuinely it for Part 1
 - Access to the site's CMS and host, or the phone number of whoever has it
 
-No AI tool is required. The `## Doing this without an agent` section in the SKILL.md is the complete manual procedure, including how to view page source and read a `robots.txt`.
+No AI tool is required. Search Console ownership verification is completed by a human; this
+skill never requests credentials or claims an unauthenticated verification.
 
 ## How to use it
 
@@ -35,19 +44,56 @@ Copy `campaign-template/presence.md` to `campaign/presence.md`, then run the ski
 
 The output is a working document. Keep it open through the cycle, tick rows as they are submitted, and re-run the Part 1 checks monthly and after any site redesign.
 
+Open venue rows are handed to `placement-writer` with their verified rules, deadline, cost,
+source requirement, owner, and next action. This skill discovers and routes; it does not draft
+the submission.
+
+## Full manual procedure
+
+1. Copy the presence template and approved ballot name, exact office phrasing, election date,
+   and truthful `same_as` URLs from positioning.
+2. Fetch `/robots.txt`. Record HTTP status, wildcard rules, the sitemap line, and whether
+   retrieval crawlers are allowed. Distinguish retrieval crawlers from training crawlers.
+3. View raw HTML on the home, bio, and one issue page. Search for `noindex`, `noarchive`,
+   `nocache`, `nosnippet`, `max-snippet:0`, and `data-nosnippet`. Disable JavaScript and confirm
+   the substantive content remains readable.
+4. Have the site's human owner inspect host/CDN/CMS crawler-blocking settings and confirm the
+   result. Assign every failed check an owner and date.
+5. Give the human owner the Google Search Console property URL and verification instructions.
+   Record only the result they confirm; do not collect credentials. Set `site_audit_passed:
+   true` only when every required Part 1 check passes.
+6. Work the baseline venue list, then derive state-, county-, district-, League-, endorsement-,
+   forum-, and questionnaire-specific venues. Start with
+   [`reference/venues.md`](../../reference/venues.md) and
+   [`reference/state-voter-guides.md`](../../reference/state-voter-guides.md), then verify each
+   row with the venue. Record status, real deadline, real cost, URL, contact, owner, and action.
+7. Classify each venue as Open now, Closed this cycle; calendar it, or Always open. Put closed
+   rows in Part 3 with reminder dates. Hand complete open rows to `placement-writer`; do not
+   draft them here.
+8. In Part 4, compare every known profile with the approved ballot name and office phrasing.
+   Include only URLs that genuinely identify the candidate in `sameAs`.
+9. Write valid JSON-LD to `campaign/identity-markup.json` with cross-linked `ProfilePage`,
+   `Person`, and `Organization` nodes. Do not emit `FAQPage` or `QAPage`. Validate the JSON,
+   then hand the file and intended target page to the human site owner or developer. Do not
+   change the live site.
+10. Show the candidate the venue list and mark irreversible rows. Wait for explicit approval.
+    A human submits each placement; this skill never submits.
+
 ## Tips and edge cases
 
 - **A blank cell is not a finding.** "$0" and "no deadline" are findings. An empty row reads as done and gets skipped forever.
 - **Closed venues become calendar entries, never dead ends.** A campaign starting in August 2026 has already missed things — Washington's statement deadline was May 19, and California's were due with nomination papers. Record the date, estimate the next cycle, set a reminder.
 - **Blocking training crawlers is a real choice with no visibility cost.** `GPTBot`, `ClaudeBot`, `Google-Extended`, `Applebot-Extended`, and `CCBot` do not affect whether the candidate appears in any assistant's answers. The skill tells the campaign what each choice does; it does not tell them what to pick.
-- **Do not oversell the website.** Off-site mentions correlate far more strongly with AI visibility than anything on the site does. A perfect site nobody links to loses to a plain site that Ballotpedia, the League of Women Voters, and two unions all point at.
+- **Do not oversell the website.** Crawlability is necessary, not a promise of citation.
 - **What the skill will not do:** edit Wikipedia, generate an `llms.txt`, emit `FAQPage` or `QAPage` markup, post anything anonymously, or submit anything anywhere. Every venue submission is human-reviewed and human-sent.
 
 ## Example
 
 A school board candidate in an invented Jackson County runs Part 1 and finds three things: `robots.txt` returns 404, the SEO plugin is emitting `noarchive` sitewide, and the host's "AI scraper protection" is on. All three are fixed in an afternoon by the volunteer who built the site.
 
-Part 2 then produces fourteen rows. Ballotpedia Candidate Connection is **Open now**, $0, next action "draft answers offline this week." The state voters' pamphlet is **Closed this cycle; calendar it**, with a reminder set for March 2028. The county League of Women Voters guide is **Open now** but invitation-only, so the next action is "email the League to confirm our address." The teachers' union questionnaire arrives in September, so it gets a date rather than a shrug.
+Part 2 then produces venue rows with verified status, cost, deadline, and next action. Open rows
+are handed to `placement-writer`; closed rows become Part 3 reminders. Part 4 emits the candidate's
+reviewable identity markup file for a human site owner to deploy.
 
 ## What it has been exercised against
 
@@ -56,4 +102,6 @@ Stated precisely, because a repo about not fabricating claims should not fabrica
 - **Three eval cases** in [`evals/evals.json`](evals/evals.json), runnable by `npx agent-skills-eval`: a site snapshot carrying a sitewide `noarchive`, a host-level AI-scraper toggle, and a JavaScript-only issues section, where all of the silent failures have to be found; an August venue triage where every row needs a status, deadline, cost, URL, and next action; and a request to create a Wikipedia page and an `llms.txt`, which has to be declined on both counts. They run against an invented candidate's invented site.
 - **Structural validation** on every pull request via `scripts/validate_skills.py`, which enforces the agentskills.io spec plus this repo's conventions.
 
-**Not yet done:** the eval suite has not been run against a live model, so no assertion here has an observed pass rate, and no real campaign site has been audited with it. The manual procedure in `## Doing this without an agent` needs nothing but a browser, but nobody has walked it end to end. If you run it, please open an issue and say what broke.
+**Not yet done:** the eval suite has not been run against a live model, so no assertion here has
+an observed pass rate, and no real campaign site has been audited with it. If you run the manual
+procedure, please open an issue and say what broke.

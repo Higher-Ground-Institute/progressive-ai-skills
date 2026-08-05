@@ -1,7 +1,7 @@
 ---
 venue: ""                    # e.g. "Ballotpedia Candidate Connection"
 venue_type: ""               # survey | statement | questionnaire | op-ed | letter | guide
-source_artifact: ""          # path to the answer or brief this was rendered from
+source_artifact: ""          # candidate-approved or published answer/brief
 limit_unit: ""               # words | characters | none
 limit_value: 0
 actual_count: 0              # measured, not estimated
@@ -80,6 +80,7 @@ State plainly what cannot be undone after submission.
 
 - [ ] Count verified against the venue limit
 - [ ] Venue rules re-read against the final text
+- [ ] Numbers, dates, qualifications, and position match the source artifact exactly
 - [ ] Candidate has read the exact text being submitted
 - Approved by: _____________ Date: __________
 - Submitted by: _____________ Date: __________

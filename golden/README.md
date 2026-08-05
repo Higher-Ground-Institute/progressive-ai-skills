@@ -234,10 +234,10 @@ to treat this as the default rather than a Madison quirk. **The reference docume
 so, and should say "get tallies from the minutes" as the primary method rather than the
 fallback.**
 
-**2. "Convert it against Nov 3, 2026" is the wrong election in three of these four places.**
-`district-media-map` step 7 says to convert election-period cutoffs against November 3, 2026.
-For the offices a first-time down-ballot candidate actually runs for, that date is wrong in
-three of the four golden districts. Wisconsin elects municipal, school district, and nonpartisan county
+**2. The election date must be resolved for the exact office.** The first golden pass used
+November 3, 2026 for deadline calculations. For the offices a first-time down-ballot candidate
+actually runs for, that date is wrong in three of the four golden districts. Wisconsin elects
+municipal, school district, and nonpartisan county
 officers at the **spring election in April**
 ([Wis. Stat. 5.02(21)](https://www.cityofmadison.com/clerk/elections-voting)); the next one is
 April 6, 2027, with a February 16, 2027 primary. Illinois elects its local offices at the
@@ -253,8 +253,8 @@ Election](https://www.whatcomcounty.us/1732/Current-Election), retrieved 2026-08
 county vote described in that district's issue scan was cast by a body voters cannot replace
 this cycle — which does not make those votes useless to a campaign, but does change completely
 what they are useful *for*. **`district-issue-scan` should require the run to state which of the
-bodies it scanned are actually on the ballot in the cycle being planned for.** It currently does
-not, and it is an easy thing to get silently wrong.
+bodies it scanned are actually on the ballot in the cycle being planned for.** The research
+skills now require a verified `election_date` and separate on-ballot bodies from context bodies.
 
 **3. "Agenda vendor" has a fourth category the procedure does not name: the document library.**
 `reference/local-agenda-systems.md` teaches hostname detection for Legistar, CivicPlus,

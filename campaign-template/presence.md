@@ -4,6 +4,7 @@ jurisdiction: ""
 election_date: ""
 audit_date: ""               # ISO 8601
 site_audit_passed: null      # true | false | null (not run)
+identity_markup_file: "campaign/identity-markup.json"
 date_created: ""
 date_modified: ""
 ---
@@ -31,7 +32,7 @@ by anything, and every hour spent on content before fixing it is wasted. Full pr
 | 8 | Host-level "block AI scrapers" toggle is off | | |
 | 9 | Core content renders without JavaScript | | |
 | 10 | `sitemap.xml` exists and is referenced in `robots.txt` | | |
-| 11 | Verified in Search Console | | |
+| 11 | Human confirmed verification in Search Console | | |
 
 Checks 5 and 8 are the ones that actually bite. Both are set by default by common CMS privacy
 plugins and host security toggles, and both fail silently.
@@ -91,6 +92,9 @@ and effective: the same name, office, and district phrasing everywhere, plus tru
 | Venue | Name matches | Office phrasing matches | Links back to site |
 |---|---|---|---|
 | | | | |
+
+**Site implementation handoff:** `campaign/identity-markup.json` is prepared for the site
+owner. This workflow does not claim the markup is live until a human confirms deployment.
 
 ## Explicitly not doing
 

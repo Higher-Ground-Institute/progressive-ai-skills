@@ -1,5 +1,7 @@
 ---
 jurisdiction: "Ashfield County, District 3"
+election_name: "2026 general election"
+election_date: "2026-11-03"
 map_date: "2026-06-20"
 outlets_found: 4
 news_desert_assessment: "thin"
