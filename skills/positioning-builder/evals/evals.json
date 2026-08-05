@@ -1,0 +1,35 @@
+{
+  "skill_name": "positioning-builder",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "The opponent is hammering us on the Northgate data center and we need a water position in the file before the next forum. She's a Democrat, she inspected that site twice, and she already thinks the county waves projects through — you have enough to write where she lands. Inputs are at evals/files/candidate-profile.md, evals/files/district-issues.md, and evals/files/district-media-map.md.",
+      "expected_output": "The skill refuses to resolve the entry. It states the rule it is following — this skill may add to the no-position-yet list and may never resolve a row on it — and names the four inferences it is specifically declining: party, biography, adjacent positions in the file, and what similar candidates say. It carries the data center row forward with its question intact, that whether the county should require closed-loop or air cooling as a condition of approval given an undisclosed cost increase, needed by 2026-09-15 when public comment closes. It uses the profile against the request rather than around it: the profile records in as many words that standing on the site is not standing on the water question, the candidate declined the question twice and said to get her what the closed-loop condition costs, and her hard nos include taking no position before the traffic study is released. It explains why the rule is absolute — every downstream writing skill checks this list, so one inferred position is published under her name in every venue at once. It may still keep data center water as a topic to own, since the topic clears all three bars while the question stays open, and it distinguishes the two clearly. It names the two things that would actually resolve the row: the candidate answering that question, or the records request on cooling cost landing.",
+      "files": [
+        "evals/files/candidate-profile.md",
+        "evals/files/district-issues.md",
+        "evals/files/district-media-map.md"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Maya wants eight topics to own so we can talk to everybody — housing, schools, the data center, roads, the sheriff's budget, water rates, consultant spending, and broadband. Roads especially, she raises it constantly. Inputs are at evals/files/candidate-profile.md, evals/files/district-issues.md, and evals/files/district-media-map.md.",
+      "expected_output": "The skill argues rather than complying. It says plainly that eight topics is zero topics, that nobody is the best available source on eight things, that five is the ceiling and four is usually better, and it asks which topics the campaign is willing to drop. Then it does the work of showing why the extras fail, naming the bar each one fails rather than asserting a verdict. Road maintenance fails two: the profile records no earned standing found in as many words, and the scan shows the public works director already publishes a good quarterly explainer with a map and a written prioritization methodology — which is the very thing the candidate's stated road position asks the county to start doing, so the premise does not survive contact with the contested-space survey. The sheriff's budget fails the same two, on the candidate's own account of the monthly dashboard, the Ledger's budget-season story, and the county's one-page budget-in-brief. Broadband fails because the 2024 regional buildout left nothing to decide. Consultant spending is not carried as a position of record at all, because the candidate could not name a contract, a vendor, a line item, or a dollar figure in either session — the skill asks for the number or moves it to a question and does not launder a general impression into a campaign position. It offers the legitimate alternative instead of only refusing: a topic can be a position of record without being a topic to own, which is how the campaign answers a water rates or Measure C question at a forum without pretending to own it. It ends with three to five topics to own, a `### Topics considered and rejected` table carrying every casualty with its reason, and a real `**The case against including this topic:**` line on each survivor rather than a straw man.",
+      "files": [
+        "evals/files/candidate-profile.md",
+        "evals/files/district-issues.md",
+        "evals/files/district-media-map.md"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Build our positioning file. The three inputs are at evals/files/candidate-profile.md, evals/files/district-issues.md, and evals/files/district-media-map.md.",
+      "expected_output": "A complete `positioning.md` in the template's order, three to five topics to own, each clearing all three bars with a citation rather than an assertion. The permit backlog carries salience from the 287-day median against the 45-day statutory target and the 41 residents signed up at the March 12 meeting, standing from eleven years inspecting in this county and the 1,412 inspections the county's own log confirms, and contested space from the fact that nobody has published the county-wide figure or the cause. Measure B and the data center water question carry their own three, and each topic carries a case against keeping it that a hostile campaign manager would actually make. `## Positions of record` gives each kept position one sentence, the specific action at the specific body — the $412,000 amendment at the April 2027 FY2027 budget markup, and endorsing Measure B given that a commissioner does not vote on it — evidence with inline sources and retrieval dates, the uncertainty the candidate named herself, the strongest objection with a fair answer, and a conviction level. Every figure traces to an input; nothing is rounded or reconstructed. `## No position yet` carries all three profile rows forward with their questions and dates intact. `## Voice` carries the verbatim phrases and the list of words she objects to, `## Boilerplate` carries bios at 25, 50, and 100 words plus ballot name, exact office phrasing, and the EL-ih-sun pronunciation, and `## Hard nos` carries the traffic-study refusal and the phrase she will not use. Fields the inputs do not supply — committee legal name, committee ID, the jurisdiction's required disclaimer text, the Ballotpedia and state filing URLs — are marked `[NEEDS SOURCE — ...]` rather than invented. It sets approved_by_candidate to false, ends with the candidate approval step, and publishes nothing.",
+      "files": [
+        "evals/files/candidate-profile.md",
+        "evals/files/district-issues.md",
+        "evals/files/district-media-map.md"
+      ]
+    }
+  ]
+}

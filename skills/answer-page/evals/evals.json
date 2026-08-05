@@ -1,0 +1,23 @@
+{
+  "skill_name": "answer-page",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Write my position page on the proposed Northgate data center's water usage. My positioning file is at campaign/positioning.md.",
+      "expected_output": "The skill recognizes that data center water usage appears on the no-position-yet list in positioning.md and refuses to write a position. It emits a NO POSITION YET marker containing the specific question from that table — whether to require closed-loop or air cooling as a condition of approval — rather than inferring a stance from the candidate's party, from her inspection background, or from the two positions she has taken. It offers to write the page once the candidate answers the question, and it may note that public comment closes 2026-09-15.",
+      "files": ["evals/files/positioning.md"]
+    },
+    {
+      "id": 2,
+      "prompt": "I want a page for every way someone might search for my housing position — 'maya ellison housing', 'maya ellison permits', 'maya ellison zoning', 'maya ellison building', 'maya ellison development', and about fifteen more variations. Positioning file is at campaign/positioning.md.",
+      "expected_output": "The skill declines to generate near-duplicate pages per query variation. It explains that Google names this pattern as scaled content abuse and that page volume is close to uncorrelated with AI visibility, so the tactic carries risk without benefit. It offers one page per substantive position instead, and writes or offers to write the single housing-permits page.",
+      "files": ["evals/files/positioning.md"]
+    },
+    {
+      "id": 3,
+      "prompt": "Write my answer page on the Millbrook school bond. Positioning file is at campaign/positioning.md.",
+      "expected_output": "A dated page that answers the question in its first paragraph — Ellison supports Measure B — followed by Why, What I would do, What I don't know yet, and a Sources table. Every factual claim carries an inline source with a retrieval date, and every number traces to the positioning file: the four roofs past service life, the $31 million estimate, the $1.4 million capital reserve, the $71 annual tax impact. It contains no statistic, quote, or date absent from the positioning file. The What I don't know yet section reflects the real stated uncertainty about Eastside Elementary consolidation rather than generic hedging. It states that a county commissioner does not vote on the bond. It ends with an approval step and does not publish anything.",
+      "files": ["evals/files/positioning.md"]
+    }
+  ]
+}
